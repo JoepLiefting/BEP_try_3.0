@@ -233,7 +233,7 @@ def revert_vehicles(type='str'):
 
                 'Truck15': 96, 'Truck16': 97, 'Truck17': 98, 'Truck18': 99, 'Truck19': 100, 'Truck20': 101, 'Truck21': 102, 'Truck22': 103, 'Truck23': 104, 'Truck24': 105,
 
-                'Truck25': 106, 'Truck26': 107, 'Truck27': 108, 'Truck28': 109, 'Truck 29': 110, 'Truck30': 111, 'Truck31': 112, 'Truck32': 113, 'Truck33': 114, 'Truck34': 115}
+                'Truck25': 106, 'Truck26': 107, 'Truck27': 108, 'Truck28': 109, 'Truck29': 110, 'Truck30': 111, 'Truck31': 112, 'Truck32': 113, 'Truck33': 114, 'Truck34': 115}
 
     else:
 
