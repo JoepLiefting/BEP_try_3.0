@@ -285,7 +285,7 @@ N = N.values
 #change names of terminals to numbers
 
 names = revert_names()
-vehicles = revert_vehicles()
+vehiclesindex = revert_vehicles()
 
 
 
