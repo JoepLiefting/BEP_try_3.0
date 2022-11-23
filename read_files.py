@@ -207,6 +207,20 @@ def revert_names(type='str'):
         return {1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8, 10: 9}
 
 
+def revert_vehicles(type='str'):
+
+    if type == 'str':
+
+        return {'Barge1': 0, 'Barge2': 1, 'Barge3': 2, 'Barge4': 3, 'Barge5': 4, 'Barge6': 5,
+
+                'Barge7': 6, 'Barge8': 7, 'Barge9': 8, 'Barge10': 9, 'Barge11': 10, 'Barge12': 11, 'Barge13': 12, 'Barge14': 13, 'Barge15': 14, 'Barge16': 15,
+
+                'Barge17': 16, 'Barge18': 17, 'Barge19': 18, 'Barge20': 19}
+
+    else:
+
+        return {1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8, 10: 9}
+
 
 def read_no_route():
 
@@ -271,6 +285,7 @@ N = N.values
 #change names of terminals to numbers
 
 names = revert_names()
+vehicles = revert_vehicles()
 
 
 
@@ -324,8 +339,8 @@ Coords = Coords.values
 
 vehicles = pd.ExcelFile(vehicles_path)
 
-vehicles = pd.read_excel(vehicles, 'K')
+vehicles = pd.read_excel(vehicles, 'K', usecols=['K', 'Ap','Bp', 'Ad', 'Bd'])
 vehicles = vehicles.set_index('K')
-
+vehicles = vehicles.values
 
 
