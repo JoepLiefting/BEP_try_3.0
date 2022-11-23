@@ -245,6 +245,7 @@ parallel_number = 1
 data_path = "Instances/Intermodal_EGS_data_all.xlsx"
 coords_path = "Instances/Coordinates.xlsx"
 fixed_path = "Instances/Fixed_vehicles.xlsx"
+vehicles_path = "Instances/Vehicles.xlsx"
 
 #read routes that are unsuitable to barges and trucks
 
@@ -321,10 +322,10 @@ Coords = Coords.values
 
 #fixed vehicles information
 
-fixed_vehicles = pd.ExcelFile(fixed_path)
+vehicles = pd.ExcelFile(vehicles_path)
 
-fixedK = pd.read_excel(fixed_vehicles, 'FixedK')
-fixedK = fixedK.set_index('K')
+vehicles = pd.read_excel(vehicles, 'K')
+vehicles = vehicles.set_index('K')
 
 
 
