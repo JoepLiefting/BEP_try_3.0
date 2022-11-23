@@ -275,7 +275,7 @@ parallel_number = 1
 #please change it to your own data path
 
 data_path = "Instances/Intermodal_EGS_data_all.xlsx"
-coords_path = "Instances/Coordinates.xlsx"
+coords_path = "Instarnces/Coordinates.xlsx"
 fixed_path = "Instances/Fixed_vehicles.xlsx"
 vehicles_path = "Instances/Vehicles.xlsx"
 
