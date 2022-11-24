@@ -2,6 +2,30 @@ import pandas as pd
 import numpy as np
 import copy
 
+vehicle_dict = {'Barge1': 0, 'Barge2': 1, 'Barge3': 2, 'Barge4': 3, 'Barge5': 4, 'Barge6': 5,
+
+                'Barge7': 6, 'Barge8': 7, 'Barge9': 8, 'Barge10': 9, 'Barge11': 10, 'Barge12': 11, 'Barge13': 12, 'Barge14': 13, 'Barge15': 14, 'Barge16': 15,
+
+                'Barge17': 16, 'Barge18': 17, 'Barge19': 18, 'Barge20': 19, 'Barge21': 20, 'Barge22': 21, 'Barge23': 22, 'Barge24': 23, 'Barge25': 24, 'Barge26': 25,
+
+                'Barge27': 26, 'Barge28': 27, 'Barge29': 28, 'Barge30': 29, 'Barge31': 30, 'Barge32': 31, 'Barge33': 32, 'Barge34': 33, 'Barge35': 34, 'Barge36': 35,
+
+                'Barge37': 36, 'Barge38': 37, 'Barge39': 38, 'Barge40': 39, 'Barge41': 40, 'Barge42': 41, 'Barge43': 42, 'Barge44': 43, 'Barge45': 44, 'Barge46': 45,
+
+                'Barge47': 46, 'Barge48': 47, 'Barge49': 48, 'Train1': 49, 'Train2': 50, 'Train3': 51, 'Train4': 52, 'Train5': 53, 'Train6': 54, 'Train7': 55,
+
+                'Train8': 56, 'Train9': 57, 'Train10': 58, 'Train11': 59, 'Train12': 60, 'Train13': 61, 'Train14': 62, 'Train15': 63, 'Train16': 64, 'Train17': 65,
+
+                'Train18': 66, 'Train19': 67, 'Train20': 68, 'Train21': 69, 'Train22': 70, 'Train23': 71, 'Train24': 72, 'Train25': 73, 'Train26': 74, 'Train27': 75,
+
+                'Train28': 76, 'Train29': 77, 'Train30': 78, 'Train31': 79, 'Train32': 80, 'Train33': 81, 'Truck1': 82, 'Truck2': 83, 'Truck3': 84, 'Truck4': 85,
+
+                'Truck5': 86, 'Truck6': 87, 'Truck7': 88, 'Truck8': 89, 'Truck9': 90, 'Truck10': 91, 'Truck11': 92, 'Truck12': 93, 'Truck13': 94, 'Truck14': 95,
+
+                'Truck15': 96, 'Truck16': 97, 'Truck17': 98, 'Truck18': 99, 'Truck19': 100, 'Truck20': 101, 'Truck21': 102, 'Truck22': 103, 'Truck23': 104, 'Truck24': 105,
+
+                'Truck25': 106, 'Truck26': 107, 'Truck27': 108, 'Truck28': 109, 'Truck29': 110, 'Truck30': 111, 'Truck31': 112, 'Truck32': 113, 'Truck33': 114, 'Truck34': 115}
+
 
 def read_D(what, K):
 
@@ -90,6 +114,44 @@ def read_T(what, K):
     if what == 'T':
 
         return T
+
+def read_E(what, K):
+
+    E_path = "Instances/E_EGS-r.xlsx"
+
+    E_origin_barge = pd.read_excel(E_path, 'Barge')
+    E_origin_train = pd.read_excel(E_path, 'Train')
+    E_origin_truck = pd.read_excel(E_path, 'Truck')
+
+    E_origin_barge = E_origin_barge.set_index('N')
+    E_origin_train = E_origin_train.set_index('N')
+    E_origin_truck = E_origin_truck.set_index('N')
+
+    E_origin_barge = E_origin_barge.values
+    E_origin_train = E_origin_train.values
+    E_origin_truck = E_origin_truck.values
+
+    E = {}
+
+    for k in range(len(K)):
+
+        if K[k, 5] == 1:
+
+            E[k] = E_origin_barge.copy()
+
+        else:
+
+            if K[k, 5] == 2:
+
+                E[k] = E_origin_train.copy()
+
+            else:
+
+                E[k] = E_origin_truck.copy()
+
+    if what == 'E':
+
+        return E
 
 
 def read_R_K(request_number_in_R, what='all'):
@@ -211,29 +273,7 @@ def revert_vehicles(type='str'):
 
     if type == 'str':
 
-        return {'Barge1': 0, 'Barge2': 1, 'Barge3': 2, 'Barge4': 3, 'Barge5': 4, 'Barge6': 5,
-
-                'Barge7': 6, 'Barge8': 7, 'Barge9': 8, 'Barge10': 9, 'Barge11': 10, 'Barge12': 11, 'Barge13': 12, 'Barge14': 13, 'Barge15': 14, 'Barge16': 15,
-
-                'Barge17': 16, 'Barge18': 17, 'Barge19': 18, 'Barge20': 19, 'Barge21': 20, 'Barge22': 21, 'Barge23': 22, 'Barge24': 23, 'Barge25': 24, 'Barge26': 25,
-
-                'Barge27': 26, 'Barge28': 27, 'Barge29': 28, 'Barge30': 29, 'Barge31': 30, 'Barge32': 31, 'Barge33': 32, 'Barge34': 33, 'Barge35': 34, 'Barge36': 35,
-
-                'Barge37': 36, 'Barge38': 37, 'Barge39': 38, 'Barge40': 39, 'Barge41': 40, 'Barge42': 41, 'Barge43': 42, 'Barge44': 43, 'Barge45': 44, 'Barge46': 45,
-
-                'Barge47': 46, 'Barge48': 47, 'Barge49': 48, 'Train1': 49, 'Train2': 50, 'Train3': 51, 'Train4': 52, 'Train5': 53, 'Train6': 54, 'Train7': 55,
-
-                'Train8': 56, 'Train9': 57, 'Train10': 58, 'Train11': 59, 'Train12': 60, 'Train13': 61, 'Train14': 62, 'Train15': 63, 'Train16': 64, 'Train17': 65,
-
-                'Train18': 66, 'Train19': 67, 'Train20': 68, 'Train21': 69, 'Train22': 70, 'Train23': 71, 'Train24': 72, 'Train25': 73, 'Train26': 74, 'Train27': 75,
-
-                'Train28': 76, 'Train29': 77, 'Train30': 78, 'Train31': 79, 'Train32': 80, 'Train33': 81, 'Truck1': 82, 'Truck2': 83, 'Truck3': 84, 'Truck4': 85,
-
-                'Truck5': 86, 'Truck6': 87, 'Truck7': 88, 'Truck8': 89, 'Truck9': 90, 'Truck10': 91, 'Truck11': 92, 'Truck12': 93, 'Truck13': 94, 'Truck14': 95,
-
-                'Truck15': 96, 'Truck16': 97, 'Truck17': 98, 'Truck18': 99, 'Truck19': 100, 'Truck20': 101, 'Truck21': 102, 'Truck22': 103, 'Truck23': 104, 'Truck24': 105,
-
-                'Truck25': 106, 'Truck26': 107, 'Truck27': 108, 'Truck28': 109, 'Truck29': 110, 'Truck30': 111, 'Truck31': 112, 'Truck32': 113, 'Truck33': 114, 'Truck34': 115}
+        return vehicle_dict
 
     else:
 
@@ -346,10 +386,12 @@ T = list(T['T'])
 
 R, R_info, K, R_pool = read_R_K(request_number_in_R)
 
+
 #distance between terminals of all vehicles, distance between terminals of trucks
 
 D, D_origin_All = read_D('D_All', K)
 T = read_T('T', K)
+E = read_E('E', K)
 
 pickup_delivery = R[:, 0:2]
 
@@ -374,4 +416,4 @@ vehicles['o'] = vehicles['o'].map(names).fillna(vehicles['o'])
 vehicles['o2'] = vehicles['o2'].map(names).fillna(vehicles['o2'])
 vehicles = vehicles.values
 
-print(vehicles)
+
