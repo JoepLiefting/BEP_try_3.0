@@ -415,5 +415,3 @@ vehicles['K'] = vehicles['K'].map(vehiclesindex).fillna(vehicles['K'])
 vehicles['o'] = vehicles['o'].map(names).fillna(vehicles['o'])
 vehicles['o2'] = vehicles['o2'].map(names).fillna(vehicles['o2'])
 vehicles = vehicles.values
-
-
