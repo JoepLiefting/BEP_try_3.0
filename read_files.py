@@ -166,7 +166,7 @@ def read_R_K(request_number_in_R, what='all'):
 
         if what == 'revert_K':
 
-            revert_K = dict(zip(K.index, range(len(K))))
+             revert_K = dict(zip(K.index, range(len(K))))
 
             return revert_K
 
