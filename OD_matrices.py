@@ -3,8 +3,10 @@ import numpy as np
 
 vehicles = read_files.vehicles
 requests = read_files.R
-time_window_check_barge = np.zeros([len(vehicles), len(requests)])
-time_window_check_train = np.zeros([len(vehicles), len(requests)])
+O_check_barge = np.zeros([len(vehicles), len(requests)])
+D_check_barge = np.zeros([len(vehicles), len(requests)])
+O_check_train = np.zeros([len(vehicles), len(requests)])
+D_check_train = np.zeros([len(vehicles), len(requests)])
 
 
 for v in range(len(vehicles)):
@@ -27,11 +29,21 @@ for v in range(len(vehicles)):
         request_destination = requests[r][1]
 
         if vehicle_type == 1:
-            if vehicle_bp > request_ap and vehicle_ad < request_bd:
+            if vehicle_origin == request_origin:
 
-                time_window_check_barge[v][r] = 1
+                O_check_barge[v][r] = 1
+
+        if vehicle_type == 1:
+            if vehicle_destination == request_destination:
+
+                D_check_barge[v][r] = 1
 
         if vehicle_type == 2:
-            if vehicle_bp > request_ap and vehicle_ad < request_bd:
+            if vehicle_origin == request_origin:
 
-                time_window_check_train[v][r] = 1
+                O_check_train[v][r] = 1
+
+        if vehicle_type == 2:
+            if vehicle_destination == request_destination:
+
+                D_check_train[v][r] = 1
