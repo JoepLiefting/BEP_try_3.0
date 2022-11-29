@@ -26,7 +26,7 @@ for v in range(len(vehicles)):
         request_origin = requests[r][0]
         request_destination = requests[r][1]
 
-        if vehicle_type == 1:
+        if vehicle_type == 1 or vehicle_type == 2:
             if vehicle_bp > request_ap and vehicle_ad < request_bd:
 
                 print(f"{request_id}" " in " f"{vehicle_id}")
