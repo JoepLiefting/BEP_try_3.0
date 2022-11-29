@@ -48,13 +48,13 @@ for (vehicle, request) in iter.zip_longest(vehicles, requests):
     vehicle_origin = vehicle[8]
     vehicle_destination = vehicle[9]
 
-    # request_id = request[7]
-    # request_ap = request[2]
-    # request_bp = request[3]
-    # request_ad = request[4]
-    # request_bd = request[5]
-    # request_origin = request[0]
-    # request_destination = request[1]
+    request_id = request[7]
+    request_ap = request[2]
+    request_bp = request[3]
+    request_ad = request[4]
+    request_bd = request[5]
+    request_origin = request[0]
+    request_destination = request[1]
 
     if vehicle_type == 1:
         print(f"\n{vehicle_id}")

@@ -166,7 +166,7 @@ def read_R_K(request_number_in_R, what='all'):
 
         if what == 'revert_K':
 
-             revert_K = dict(zip(K.index, range(len(K))))
+            revert_K = dict(zip(K.index, range(len(K))))
 
             return revert_K
 
@@ -251,6 +251,7 @@ def read_R_K(request_number_in_R, what='all'):
         if what == 'all':
 
             return R, R_info, K, R_pool
+        # return R
 
 
 
@@ -415,3 +416,5 @@ vehicles['K'] = vehicles['K'].map(vehiclesindex).fillna(vehicles['K'])
 vehicles['o'] = vehicles['o'].map(names).fillna(vehicles['o'])
 vehicles['o2'] = vehicles['o2'].map(names).fillna(vehicles['o2'])
 vehicles = vehicles.values
+
+
