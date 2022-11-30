@@ -11,11 +11,11 @@ import read_files
 import itertools as iter
 from openpyxl import load_workbook
 
-data_file_vehicles = 'Instances/Vehicles.xlsx'
-wb_vehicles = load_workbook(data_file_vehicles)
-ws_vehicles = wb_vehicles['K']
-
-all_rows = list(ws_vehicles.rows)
+# data_file_vehicles = 'Instances/Vehicles.xlsx'
+# wb_vehicles = load_workbook(data_file_vehicles)
+# ws_vehicles = wb_vehicles['K']
+#
+# all_rows = list(ws_vehicles.rows)
 
 vehicles = read_files.vehicles
 requests = read_files.R
@@ -48,13 +48,13 @@ for (vehicle, request) in iter.zip_longest(vehicles, requests):
     vehicle_origin = vehicle[8]
     vehicle_destination = vehicle[9]
 
-    # request_id = request[7]
-    # request_ap = request[2]
-    # request_bp = request[3]
-    # request_ad = request[4]
-    # request_bd = request[5]
-    # request_origin = request[0]
-    # request_destination = request[1]
+    request_id = request[7]
+    request_ap = request[2]
+    request_bp = request[3]
+    request_ad = request[4]
+    request_bd = request[5]
+    request_origin = request[0]
+    request_destination = request[1]
 
     if vehicle_type == 1:
         print(f"\n{vehicle_id}")
@@ -62,3 +62,4 @@ for (vehicle, request) in iter.zip_longest(vehicles, requests):
         print("leaves at: " f"{vehicle_bp}")
         print("arrives at: " f"{vehicle_ad}")
         print("unloading time ends at: " f"{vehicle_bd}")
+        print(f"{request_ap}")

@@ -230,7 +230,7 @@ def read_R_K(request_number_in_R, what='all'):
 
         # R['c_delay'] = c_delay_list
 
-        R = np.append(R, np.c_[c_delay_list], axis=1)
+        np.append(R, np.c_[c_delay_list], axis=1)
 
         R_info = -1
 
@@ -251,7 +251,6 @@ def read_R_K(request_number_in_R, what='all'):
         if what == 'all':
 
             return R, R_info, K, R_pool
-
 
 
 
@@ -415,5 +414,8 @@ vehicles['K'] = vehicles['K'].map(vehiclesindex).fillna(vehicles['K'])
 vehicles['o'] = vehicles['o'].map(names).fillna(vehicles['o'])
 vehicles['o2'] = vehicles['o2'].map(names).fillna(vehicles['o2'])
 vehicles = vehicles.values
+
+print(vehicles)
+
 
 
