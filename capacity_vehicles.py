@@ -26,4 +26,15 @@ def capacity_check(requests):
     return  capacity_check
 
 
+def update_curcap(requests, request_id, vehicle_id):
+    requests = requests
+    request_id = request_id
+    vehicle_id = vehicle_id
+    request_index = request_id-100000
+
+    quantity = requests[request_index][6]
+
+    current_cap[vehicle_id][1] = current_cap[vehicle_id][1]-quantity
+
+    return current_cap
 
