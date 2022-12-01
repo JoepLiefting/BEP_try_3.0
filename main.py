@@ -18,3 +18,8 @@ capacity_check = capacity_vehicles.capacity_check(requests= requests)
 suitable_routes_barge = time_window_barge * (time_window_barge + O_matrix_barge * D_matrix_barge)
 suitable_routes_train = time_window_train * (time_window_train + O_matrix_train * D_matrix_train)
 
+
+update_capacity = capacity_vehicles.update_curcap(requests= requests,
+                                                  vehicle_id= 2,
+                                                  request_id= 100001)
+
