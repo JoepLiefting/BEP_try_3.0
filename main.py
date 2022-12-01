@@ -15,8 +15,19 @@ D_matrix_train = OD_matrices.D_matrix_train(requests= requests)
 
 capacity_check = capacity_vehicles.capacity_check(requests= requests)
 
-suitable_routes_barge = time_window_barge * (time_window_barge + O_matrix_barge * D_matrix_barge)
-suitable_routes_train = time_window_train * (time_window_train + O_matrix_train * D_matrix_train)
+suitable_routes_barge = capacity_check * time_window_barge * ((O_matrix_barge * D_matrix_barge) + O_matrix_barge)
+suitable_routes_train = capacity_check * time_window_train * ((O_matrix_train * D_matrix_train) + O_matrix_train)
+
+
+
+# vehicles = read_files.vehicles
+# for v in range(len(vehicles)):
+#     for r in range(len(requests)):
+#         suitable_routes_barge = suitable_routes_barge[v][r]
+#
+#         if request_qr <= curcap:
+#             capacity_check[v][r] = 1
+
 
 
 update_capacity = capacity_vehicles.update_curcap(requests= requests,
