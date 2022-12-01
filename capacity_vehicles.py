@@ -14,7 +14,7 @@ vehicles = read_files.vehicles
 requests = read_files.R
 current_cap = np.zeros([len(vehicles), 2])
 
-assigned_matrix = np.zeros([len(vehicles), len(requests)])
+capacity_check = np.zeros([len(vehicles), len(requests)])
 
 for k in range(len(current_cap)):
     current_cap[k][0] = vehicles[k][1]
@@ -28,15 +28,9 @@ for v in range(len(vehicles)):
 
         request_qr = requests[r][6]
 
-#         if vehicle gekozen dan
-#             if (curcap - request_qr) > maxcap
-#
-#                     current_cap = curcap - request_qr
-#                     print(waggie nr... is gegaan)
-#             else
-#                 andere vehicle vinden
-#
-# return current_cap
+        if request_qr <= curcap:
+            curcap = curcap - request_qr
+            capacity_check[v][r] = 1
 
 
 
