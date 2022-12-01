@@ -1,37 +1,42 @@
 import pandas as pd
 import numpy as np
 import read_files
-import time_windows_2
-import main
-
-suitable_routes_barge = main.suitable_routes_barge
-suitable_routes_train = main.suitable_routes_train
+import time_windows_3
 
 
-def current_capacity(requests):
+# suitable_routes_barge = time_window_barge * (time_window_barge + O_matrix_barge * D_matrix_barge)
+# suitable_routes_train = time_window_train * (time_window_train + O_matrix_train * D_matrix_train)
 
-    vehicles = read_files.vehicles
-    current_cap = np.zeros([len(vehicles), 1])
-    # current_cap = pd.read_excel(Vehicles, 'K', usecols=['curcap'])
-    # current_cap = current_cap.values
-    requests = requests
 
-    for v in range(len(vehicles)):
-        for r in range(len(requests)):
-            curcap = vehicles[v][2]
-            maxcap = vehicles[v][1]
+# def current_capacity(requests):
 
-            request_qr = requests[r][6]
+vehicles = read_files.vehicles
+requests = read_files.R
+current_cap = np.zeros([len(vehicles), 2])
 
-            if vehicle gekozen dan
-                if (curcap - request_qr) > maxcap
+assigned_matrix = np.zeros([len(vehicles), len(requests)])
 
-                        current_cap = curcap - request_qr
-                        print(waggie nr... is gegaan)
-                else
-                    andere vehicle vinden
+for k in range(len(current_cap)):
+    current_cap[k][0] = vehicles[k][1]
+    current_cap[k][1] = vehicles[k][2]
 
-    return current_cap
+
+for v in range(len(vehicles)):
+    for r in range(len(requests)):
+        curcap = vehicles[v][2]
+        maxcap = vehicles[v][1]
+
+        request_qr = requests[r][6]
+
+#         if vehicle gekozen dan
+#             if (curcap - request_qr) > maxcap
+#
+#                     current_cap = curcap - request_qr
+#                     print(waggie nr... is gegaan)
+#             else
+#                 andere vehicle vinden
+#
+# return current_cap
 
 
 
