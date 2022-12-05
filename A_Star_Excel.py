@@ -1,5 +1,5 @@
 import heapq
-
+import pandas as pd
 class priorityQueue:
     def __init__(self):
         self.cities = []
@@ -28,7 +28,7 @@ def makedict():
         line = string.split('-')
         ct1 = line[0]
         ct2 = line[1]
-        dist = int(line[2])
+        dist = float(line[2])
         romania.setdefault(ct1, []).append(ctNode(ct2, dist))
         romania.setdefault(ct2, []).append(ctNode(ct1, dist))
 
@@ -40,10 +40,8 @@ def makehuristikdict():
         for line in file:
             line = line.strip().split("-")
             node = line[0].strip()
-            sld = int(line[1].strip())
+            sld = float(line[1].strip())
             h[node] = sld
-            sld_emissions = 0.8866*sld
-            print(sld_emissions)
     return h
 
 def heuristic(node, values):
@@ -64,7 +62,7 @@ def astar(start, end):
         if (current == end):
             break
         for new in romania[current]:
-            g_cost = distance[current] + int(new.distance)
+            g_cost = distance[current] + float(new.distance)
             #print(new.city, new.distance, "now : " + str(distance[current]), g_cost)
             if (new.city not in distance or g_cost < distance[new.city]):
                 distance[new.city] = g_cost
