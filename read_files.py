@@ -251,6 +251,7 @@ def read_R_K(request_number_in_R, what='all'):
         if what == 'all':
 
             return R, R_info, K, R_pool
+        # return R
 
 
 
@@ -409,6 +410,7 @@ Coords = Coords.values
 
 vehicles = pd.ExcelFile(vehicles_path)
 
+
 vehicles = pd.read_excel(vehicles, 'K')
 vehicles['K'] = vehicles['K'].map(vehiclesindex).fillna(vehicles['K'])
 vehicles['o'] = vehicles['o'].map(names).fillna(vehicles['o'])
@@ -417,5 +419,11 @@ vehicles = vehicles.values
 
 print(vehicles)
 
+
+
+
+# Vehicles = pd.ExcelFile(vehicles_path)
+# curcap = pd.read_excel(Vehicles, 'K', usecols=['curcap'])
+# curcap = curcap.values
 
 
