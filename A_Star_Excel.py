@@ -25,7 +25,7 @@ romania = {}
 def makedict():
     file = open("romania.txt", 'r')
     for string in file:
-        line = string.split(',')
+        line = string.split('-')
         ct1 = line[0]
         ct2 = line[1]
         dist = int(line[2])
@@ -38,10 +38,12 @@ def makehuristikdict():
     h = {}
     with open("romania_sld.txt", 'r') as file:
         for line in file:
-            line = line.strip().split(",")
+            line = line.strip().split("-")
             node = line[0].strip()
             sld = int(line[1].strip())
             h[node] = sld
+            sld_emissions = 0.8866*sld
+            print(sld_emissions)
     return h
 
 def heuristic(node, values):
