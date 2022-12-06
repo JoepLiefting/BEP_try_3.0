@@ -30,11 +30,12 @@ suitable_routes_train = capacity_check * time_window_train * ((O_matrix_train * 
 # Assigning request with direct OD to barge
 direct_routes_barge = np.asarray(np.where(suitable_routes_barge == 2))
 
+# Chose barge with lowest current capacity
 unique_assignments = logbook.assignment_lowest_capacity(requests= requests,
                                                         vehicles= vehicles,
                                                         capacities= capacities,
                                                         assignments= direct_routes_barge)
-
+# Assign requests to vehicles
 assign_direct_routes_barge = logbook.assign_request_to_vehicle(requests= requests,
                                                                vehicles= vehicles,
                                                                capacities= capacities,
