@@ -20,23 +20,23 @@ class ctNode:
         self.city = str(city)
         self.distance = str(distance)
 
-romania = {}
+emissions = {}
 
 def makedict():
-    file = open("romania.txt", 'r')
+    file = open("emissions_all_vehicles.txt", 'r')
     for string in file:
         line = string.split('-')
         ct1 = line[0]
         ct2 = line[1]
         dist = float(line[2])
-        romania.setdefault(ct1, []).append(ctNode(ct2, dist))
-        romania.setdefault(ct2, []).append(ctNode(ct1, dist))
+        emissions.setdefault(ct1, []).append(ctNode(ct2, dist))
+        emissions.setdefault(ct2, []).append(ctNode(ct1, dist))
 
 # bomen doorbouwen
 
 def makehuristikdict():
     h = {}
-    with open("romania_sld.txt", 'r') as file:
+    with open("total_emissions.txt", 'r') as file:
         for line in file:
             line = line.strip().split("-")
             node = line[0].strip()
@@ -61,7 +61,7 @@ def astar(start, end):
         expandedList.append(current)
         if (current == end):
             break
-        for new in romania[current]:
+        for new in emissions[current]:
             g_cost = distance[current] + float(new.distance)
             #print(new.city, new.distance, "now : " + str(distance[current]), g_cost)
             if (new.city not in distance or g_cost < distance[new.city]):
@@ -80,7 +80,7 @@ def printoutput(start, end, path, distance, expandedlist):
         i = path[i]
     finalpath.append(start)
     finalpath.reverse()
-    print("A-star Agorithm for Romania Map")
+    print("A-star Algorithm for emissions in route")
     print("\tDelta => Nuremberg")
     print("=======================================================")
     print("List of Cities that are Expanded : " + str(expandedlist))
