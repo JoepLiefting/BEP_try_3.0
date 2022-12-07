@@ -423,7 +423,10 @@ H_matrix = pd.read_excel(H_matrix, 'Barge')
 H_matrix['N'] = H_matrix['N'].map(names).fillna(H_matrix['N'])
 H_matrix = H_matrix.values
 
-
+E_path = "Instances/E_EGS-r.xlsx"
+E_matrix_All = pd.read_excel(E_path, 'All_vehicles')
+E_matrix_All = E_matrix_All.set_index('N_All')
+E_matrix_All = E_matrix_All.values
 
 
 # Vehicles = pd.ExcelFile(vehicles_path)
