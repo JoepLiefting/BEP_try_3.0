@@ -1,15 +1,18 @@
 import read_files
 import pandas as pd
 
-H_matrix = read_files.H_matrix
-E_matrix_barge = read_files.E[0]
-E_matrix_truck = read_files.E[82]
+# H_matrix = read_files.H_matrix
+# E_matrix_barge = read_files.E[0]
+# E_matrix_truck = read_files.E[82]
 
-#E_matrix_All = read_files.E[116]
+
 E_path = "Instances/E_EGS-r.xlsx"
 E_matrix_All = pd.read_excel(E_path, 'All_vehicles')
 E_matrix_All = E_matrix_All.set_index('N_All')
 E_matrix_All = E_matrix_All.values
+
+H_matrix = read_files.H_matrix
+
 
 def a_star(graph, heuristic, start, goal):
     """
@@ -77,6 +80,6 @@ def a_star(graph, heuristic, start, goal):
 
 
 a_star(graph= E_matrix_All,
-       heuristic= E_matrix_truck,
-       start= 6,
-       goal= 7)
+       heuristic= H_matrix,
+       start= 5,
+       goal= 2)
