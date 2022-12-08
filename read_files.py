@@ -262,11 +262,15 @@ def revert_names(type='str'):
 
         return {'Delta': 0, 'Euromax': 1, 'HOME': 2, 'Moerdijk': 3, 'Venlo': 4, 'Duisburg': 5,
 
-                'Willebroek': 6, 'Neuss': 7, 'Dortmund': 8, 'Nuremberg': 9}
+                'Willebroek': 6, 'Neuss': 7, 'Dortmund': 8, 'Nuremberg': 9, 'Delta1': 10, 'Euromax1': 11, 'HOME1': 12, 'Moerdijk1': 13, 'Venlo1': 14, 'Duisburg1': 15,
+
+                'Willebroek1': 16, 'Neuss1': 17, 'Dortmund1': 18, 'Nuremberg1': 19, 'Delta2': 20, 'Euromax2': 21, 'HOME2': 22, 'Moerdijk2': 23, 'Venlo2': 24, 'Duisburg2': 25,
+
+                'Willebroek2': 26, 'Neuss2': 27, 'Dortmund2': 28, 'Nuremberg2': 29}
 
     else:
 
-        return {1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8, 10: 9}
+        return {1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8, 10: 9, 11: 10, 12: 11, 13: 12, 14: 13, 15: 14, 16: 15, 17: 16, 18: 17, 19: 18, 20: 19, 21: 20, 22: 21, 23: 22, 24: 23, 25: 24, 26: 25, 27: 26, 28: 27, 29: 28, 30: 29}
 
 
 def revert_vehicles(type='str'):
@@ -420,8 +424,10 @@ vehicles = vehicles.values
 
 H_matrix = pd.ExcelFile(H_path)
 H_matrix = pd.read_excel(H_matrix, 'Barge')
+H_matrix = H_matrix.set_index('N')
 H_matrix['N'] = H_matrix['N'].map(names).fillna(H_matrix['N'])
 H_matrix = H_matrix.values
+
 
 E_path = "Instances/E_EGS-r.xlsx"
 E_matrix_All = pd.read_excel(E_path, 'All_vehicles')
