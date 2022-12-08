@@ -426,12 +426,31 @@ H_matrix = pd.ExcelFile(H_path)
 H_matrix = pd.read_excel(H_matrix, 'Barge', index_col=0)
 H_matrix.reset_index()
 H_matrix = H_matrix.values
+for i in range(len(H_matrix)):
+    for j in range(len(H_matrix)):
+        if H_matrix[i][j] == 0:
+            H_matrix[i][j] = 0.01
+
+for i in range(len(H_matrix)):
+    for j in range(len(H_matrix)):
+        if H_matrix[i][j] == 1000000:
+            H_matrix[i][j] = 0
+
 
 
 E_path = "Instances/E_EGS-r.xlsx"
 E_matrix_All = pd.read_excel(E_path, 'All_vehicles')
 E_matrix_All = E_matrix_All.set_index('N_All')
 E_matrix_All = E_matrix_All.values
+for i in range(len(E_matrix_All)):
+    for j in range(len(E_matrix_All)):
+        if E_matrix_All[i][j] == 0:
+            E_matrix_All[i][j] = 0.01
+
+for i in range(len(E_matrix_All)):
+    for j in range(len(E_matrix_All)):
+        if E_matrix_All[i][j] == 1000000:
+            E_matrix_All[i][j] = 0
 
 
 # Vehicles = pd.ExcelFile(vehicles_path)

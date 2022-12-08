@@ -80,7 +80,7 @@ def a_star(graph, heuristic, start, goal, traject):
 
 a_star(graph= E_matrix_All,
        heuristic= H_matrix,
-       start= 1,
-       goal= 9,
+       start= 4,
+       goal= 7,
        traject= traject)
 
