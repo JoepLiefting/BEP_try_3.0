@@ -7,7 +7,10 @@ import read_files
 E_matrix_All = read_files.E_matrix_All
 H_matrix = read_files.H_matrix
 
-def a_star(graph, heuristic, start, goal):
+# Order of visited nodes
+traject = []
+
+def a_star(graph, heuristic, start, goal, traject):
     """
     Finds the shortest distance between two nodes using the A-star (A*) algorithm
     :param graph: an adjacency-matrix-representation of the graph where (x,y) is the weight of the edge or 0 if there is no edge.
@@ -52,7 +55,9 @@ def a_star(graph, heuristic, start, goal):
             print("Goal node found!")
             return distances[lowest_priority_index]
 
-        print("Visiting node " + f"\n{lowest_priority_index}" + " with currently lowest priority of " + f"\n{lowest_priority}")
+        traject.append(lowest_priority_index)
+        print("Visiting node " + f"{lowest_priority_index}" + " with currently lowest priority of " + f"{lowest_priority}")
+
 
         # ...then, for all neighboring nodes that haven't been visited yet....
         for i in range(len(graph[lowest_priority_index])):
@@ -71,8 +76,9 @@ def a_star(graph, heuristic, start, goal):
                 # print("Currently lowest distances: " + f"\n{distances}")
 
 
-
 a_star(graph= E_matrix_All,
        heuristic= H_matrix,
        start= 5,
-       goal= 2)
+       goal= 2,
+       traject= traject)
+
