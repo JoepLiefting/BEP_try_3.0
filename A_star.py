@@ -52,6 +52,8 @@ def a_star(graph, heuristic, start, goal, traject):
 
         elif lowest_priority_index == goal:
             # Goal node found
+            traject.append(lowest_priority_index)
+            print("Visiting node " + f"{lowest_priority_index}" + " with currently lowest priority of " + f"{lowest_priority}")
             print("Goal node found!")
             return distances[lowest_priority_index]
 
@@ -78,7 +80,7 @@ def a_star(graph, heuristic, start, goal, traject):
 
 a_star(graph= E_matrix_All,
        heuristic= H_matrix,
-       start= 5,
-       goal= 2,
+       start= 1,
+       goal= 9,
        traject= traject)
 
