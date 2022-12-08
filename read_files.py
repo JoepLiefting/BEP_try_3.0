@@ -424,6 +424,7 @@ vehicles = vehicles.values
 
 H_matrix = pd.ExcelFile(H_path)
 H_matrix = pd.read_excel(H_matrix, 'Barge', index_col=0)
+H_matrix.reset_index()
 H_matrix = H_matrix.values
 
 
