@@ -64,6 +64,7 @@ def a_star(graph, heuristic, start, goal, traject):
         # ...then, for all neighboring nodes that haven't been visited yet....
         for i in range(len(graph[lowest_priority_index])):
             if graph[lowest_priority_index][i] != 0 and not visited[i]:
+            # if graph[lowest_priority_index][i] and not visited[i]:
                 # ...if the path over this edge is shorter...
                 if distances[lowest_priority_index] + graph[lowest_priority_index][i] < distances[i]:
                     # ...save this path as new shortest path
@@ -80,7 +81,7 @@ def a_star(graph, heuristic, start, goal, traject):
 
 a_star(graph= E_matrix_All,
        heuristic= H_matrix,
-       start= 4,
-       goal= 7,
+       start= 1,
+       goal= 8,
        traject= traject)
 
