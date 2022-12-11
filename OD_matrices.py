@@ -96,7 +96,12 @@ def available_routes_matrix(E_matrix, vehicles, time_window_matrix, request_id, 
     available_trains = []
     T_E_matrix = E_matrix.copy()
 
-# T_E_matrix voor barges
+    for i in range(30):
+        for j in range(30):
+            if i == j:
+                T_E_matrix[i][j] = 0
+
+# T_E_matrix voor barges met capacites
     for v in range(len(vehicles)):
         if vehicles[v][7] == 1:
             if time_window_matrix[v][request_id] == 1 and capacity_check[v][request_id] == 1:
@@ -112,8 +117,8 @@ def available_routes_matrix(E_matrix, vehicles, time_window_matrix, request_id, 
         barge_origins.append(int(barge_O))
         barge_destinations.append(int(barge_D))
 
-    for i in range(9):
-        for j in range(9):
+    for i in range(10):
+        for j in range(10):
             if i != j:
                 T_E_matrix[i][j] = 0
 
@@ -124,7 +129,7 @@ def available_routes_matrix(E_matrix, vehicles, time_window_matrix, request_id, 
             T_E_matrix[barge_origin][barge_destination] = E_matrix[barge_origin][barge_destination]
             T_E_matrix[barge_destination][barge_origin] = E_matrix[barge_destination][barge_origin]
 
-# T_E_matrix voor trains
+# T_E_matrix voor trains met capacities
     for v in range(len(vehicles)):
         if vehicles[v][7] == 2:
             if time_window_matrix[v][request_id] == 1 and capacity_check[v][request_id] == 1:
@@ -140,15 +145,15 @@ def available_routes_matrix(E_matrix, vehicles, time_window_matrix, request_id, 
         train_origins.append(int(train_O))
         train_destinations.append(int(train_D))
 
-    for i in range(9):
-        for j in range(9):
+    for i in range(10):
+        for j in range(10):
             if i != j:
                 T_E_matrix[i + 10][j + 10] = 0
 
     for i in range(len(train_origins)):
         if len(train_origins) != 0:
-            train_origin = int(train_origins[i])
-            train_destination = int(train_destinations[i])
+            train_origin = int(train_origins[i]+10)
+            train_destination = int(train_destinations[i]+10)
             T_E_matrix[train_origin][train_destination] = E_matrix[train_origin][train_destination]
             T_E_matrix[train_destination][train_origin] = E_matrix[train_destination][train_origin]
 
