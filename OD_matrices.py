@@ -91,7 +91,7 @@ def D_matrix_train(requests):
     return D_check_train
 
 
-def available_routes_matrix(E_matrix, vehicles, time_window_matrix, request_id, capacity_check):
+def CTE_matrix(E_matrix, vehicles, time_window_matrix, request_id, capacity_check):
     available_barges = []
     available_trains = []
     T_E_matrix = E_matrix.copy()
@@ -170,9 +170,9 @@ time_window_matrix = time_windows_3.time_matrix_barge(requests= requests)+time_w
 capacities = capacity_vehicles.capacity_matrix(vehicles= vehicles)
 capacity_check = capacity_vehicles.capacity_check(requests= requests, capacities= capacities, vehicles= vehicles)
 
-T_E_matrix = available_routes_matrix(E_matrix= E_matrix,
-                                     vehicles= vehicles,
-                                     time_window_matrix= time_window_matrix,
-                                     request_id= 4,
-                                     capacity_check= capacity_check)
+CTE_matrix = CTE_matrix(E_matrix= E_matrix,
+                         vehicles= vehicles,
+                         time_window_matrix= time_window_matrix,
+                         request_id= 4,
+                         capacity_check= capacity_check)
 

@@ -7,12 +7,8 @@ def assigned_requests_matrix(vehicles, requests):
     assigned_requests = np.zeros([len(vehicles), len(requests)])
     return assigned_requests
 
-def assignment_lowest_capacity(requests, vehicles, capacities, assignments):
-    requests = requests
-    vehicles = vehicles
-    capacities = capacities
-    assignments = assignments
-    unique_assignments = assignments
+def assignment_lowest_capacity(vehicles, capacities, assignments):
+    unique_assignments = assignments.copy()
 
     for v in range(len(assignments[0])-1):
         vehicle = assignments[0][v+1]
@@ -36,23 +32,20 @@ def assignment_lowest_capacity(requests, vehicles, capacities, assignments):
     return unique_assignments
 
 
-def assign_request_to_vehicle(requests, vehicles, capacities, assignments, assigned_requests):
-    requests = requests
-    vehicles = vehicles
-    capacities = capacities
-    assignments = assignments
-    assigned_requests = assigned_requests
+def assign_request_to_vehicle(open_requests, closed_requests, vehicles, capacities, vehicle_id, request_id, assigned_requests):
 
-    for r in range(len(assignments[1])):
-        assignment_vehicle = assignments[0][r]
-        assignment_request = assignments[1][r]
-        capacity_check = capacity_vehicles.capacity_check(requests= requests, capacities= capacities, vehicles= vehicles)
+    assignment_request = request_id
+    assignment_vehicle = vehicle_id
+    capacity_check = capacity_vehicles.capacity_check(requests= open_requests, capacities= capacities, vehicles= vehicles)
 
-        if capacity_check[assignment_vehicle][assignment_request] == 1 and assigned_requests[assignment_vehicle][assignment_request] != 1:
+    if capacity_check[assignment_vehicle][assignment_request] == 1 and assigned_requests[assignment_vehicle][assignment_request] != 1 and assignment_request not in closed_requests:
 
-            capacity_vehicles.update_curcap(requests= requests,
-                                          capacities= capacities,
-                                          request_id= assignment_request+100000,
-                                          vehicle_id= assignment_vehicle)
+        capacity_vehicles.update_curcap(requests= open_requests,
+                                      capacities= capacities,
+                                      request_id= assignment_request+100000,
+                                      vehicle_id= assignment_vehicle)
 
-            assigned_requests[assignment_vehicle][assignment_request] = 1
+        assigned_requests[assignment_vehicle][assignment_request] = 1
+        closed_requests.append(assignment_request)
+
+    return assigned_requests, closed_requests

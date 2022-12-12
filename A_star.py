@@ -1,9 +1,5 @@
 import read_files
 
-
-# E_matrix_barge = read_files.E[0]
-# E_matrix_truck = read_files.E[82]
-
 E_matrix_All = read_files.E_matrix_All
 H_matrix = read_files.H_matrix
 
