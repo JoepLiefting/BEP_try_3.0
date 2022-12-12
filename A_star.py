@@ -51,7 +51,7 @@ def a_star(graph, heuristic, start, goal, traject):
             traject.append(lowest_priority_index)
             print("Visiting node " + f"{lowest_priority_index}" + " with currently lowest priority of " + f"{lowest_priority}")
             print("Goal node found!")
-            return distances[lowest_priority_index]
+            return traject
 
         traject.append(lowest_priority_index)
         print("Visiting node " + f"{lowest_priority_index}" + " with currently lowest priority of " + f"{lowest_priority}")
@@ -75,9 +75,22 @@ def a_star(graph, heuristic, start, goal, traject):
                 # print("Currently lowest distances: " + f"\n{distances}")
 
 
-a_star(graph= E_matrix_All,
+a = a_star(graph= E_matrix_All,
        heuristic= H_matrix,
        start= 1,
        goal= 8,
        traject= traject)
+
+
+def get_vehicles_from_astar(traject, vehicles, requests, request_id, time_window_matrix):
+    used_vehicles = []
+    for t in range(len(traject)):
+        if np.abs(traject[t]-traject[t+1]) != [10, 20] and traject[t] < 10:
+            origin = traject[t]
+            destination = traject[t+1]
+
+            for v in range(len(vehicles)):
+                if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 1 and time_window_matrix[v][request_id] == 1:
+                    used_vehicles.append(vehicles[v][0])
+
 
