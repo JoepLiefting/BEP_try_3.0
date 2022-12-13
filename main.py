@@ -66,8 +66,10 @@ for r in range(len(requests)):
 
 #Astar requests:
 for r in range(len(requests)):
-    # if r not in closed_requests:
-    if r == 4:
+    request_id = requests[r][7]-100000
+    used_vehicles = []
+    if request_id not in closed_requests:
+    # if r == 4:
         capacity_check = capacity_vehicles.capacity_check(requests= requests, capacities= capacities, vehicles= vehicles)
         CTE_matrix = OD_matrices.CTE_matrix(E_matrix= E_matrix_All,
                                             vehicles= vehicles,
@@ -80,12 +82,17 @@ for r in range(len(requests)):
                                start= requests[r][0],
                                goal= requests[r][1])
 
-        used_vehicles = A_star.get_vehicles_from_astar(traject= traject,
+        unique_used_vehicles = A_star.get_vehicles_from_astar(traject= traject,
                                                     vehicles= vehicles,
                                                     request_id= r,
                                                     time_window_matrix= time_window_combined)
-
-
-
-        print(traject)
-        print(used_vehicles)
+        print(unique_used_vehicles)
+        for v in range(len(unique_used_vehicles)):
+            vehicle_id = int(unique_used_vehicles[v])
+            assign_astar_routes = logbook.assign_request_to_vehicle(open_requests= open_requests,
+                                                                closed_requests= closed_requests,
+                                                                vehicles= vehicles,
+                                                                capacities= capacities,
+                                                                vehicle_id= vehicle_id,
+                                                                request_id= request_id,
+                                                                assigned_requests= assigned_requests)

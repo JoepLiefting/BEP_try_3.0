@@ -78,10 +78,15 @@ def get_vehicles_from_astar(traject, vehicles, request_id, time_window_matrix):
     for t in range(len(traject)-1):
         if np.abs(traject[t]-traject[t+1]) != 10 and np.abs(traject[t]-traject[t+1]) != 20 and traject[t] < 10:
             origin = traject[t]
-            destination = traject[t+1]
-            print(origin)
-            print(destination)
-            print('barge')
+            if traject[t + 1] < 10:
+                destination = traject[t + 1]
+            elif traject[t + 1] >= 10 and traject[t + 1] < 20:
+                destination = traject[t + 1] - 10
+            elif traject[t + 1] >= 20:
+                destination = traject[t + 1] - 20
+            # print(origin)
+            # print(destination)
+            # print('barge')
 
             for v in range(len(vehicles)):
                 if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 1:
@@ -90,10 +95,15 @@ def get_vehicles_from_astar(traject, vehicles, request_id, time_window_matrix):
 
         elif np.abs(traject[t]-traject[t+1]) != 10 and np.abs(traject[t]-traject[t+1]) != 20 and 10 <= traject[t] < 20:
             origin = traject[t]-10
-            destination = traject[t + 1]-10
-            print(origin)
-            print(destination)
-            print('train')
+            if traject[t+1] < 10:
+                destination = traject[t+1]
+            elif traject[t+1] >= 10 and traject[t+1] < 20:
+                destination = traject[t+1] - 10
+            elif traject[t+1] >= 20:
+                destination = traject[t+1] - 20
+            # print(origin)
+            # print(destination)
+            # print('train')
 
             for v in range(len(vehicles)):
                 if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 2:
@@ -101,13 +111,30 @@ def get_vehicles_from_astar(traject, vehicles, request_id, time_window_matrix):
 
         elif np.abs(traject[t]-traject[t+1]) != 10 and np.abs(traject[t]-traject[t+1]) != 20 and traject[t] >= 20:
             origin = traject[t] - 20
-            destination = traject[t + 1] - 20
-            print(origin)
-            print(destination)
-            print('truck')
+            if traject[t + 1] < 10:
+                destination = traject[t + 1]
+            elif traject[t + 1] >= 10 and traject[t + 1] < 20:
+                destination = traject[t + 1] - 10
+            elif traject[t + 1] >= 20:
+                destination = traject[t + 1] - 20
+            # print(origin)
+            # print(destination)
+            # print('truck')
 
             for v in range(len(vehicles)):
                 if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 3:
                     used_vehicles.append(vehicles[v][0])
 
-    return used_vehicles
+    unique_used_vehicles = used_vehicles.copy()
+    for v in range(len(used_vehicles)-1):
+        vehicle = int(used_vehicles[v+1])
+        previous_vehicle = int(used_vehicles[v])
+        vehicle_O = vehicles[vehicle][8]
+        vehicle_D = vehicles[vehicle][9]
+        previous_vehicle_O = vehicles[previous_vehicle][8]
+        previous_vehicle_D = vehicles[previous_vehicle][9]
+
+        if vehicle_O == previous_vehicle_O and vehicle_D == previous_vehicle_D:
+            unique_used_vehicles.remove(vehicle)
+
+    return unique_used_vehicles

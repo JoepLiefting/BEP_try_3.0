@@ -16,11 +16,11 @@ def assignment_lowest_capacity(vehicles, capacities, assignments):
         previous_vehicle = assignments[0][v]
         previous_request = assignments[1][v]
 
-        vehicle_O = vehicles[vehicle][7]
-        vehicle_D = vehicles[vehicle][8]
+        vehicle_O = vehicles[vehicle][8]
+        vehicle_D = vehicles[vehicle][9]
         vehicle_curcap = capacities[vehicle][1]
-        previous_vehicle_O = vehicles[previous_vehicle][7]
-        previous_vehicle_D = vehicles[previous_vehicle][8]
+        previous_vehicle_O = vehicles[previous_vehicle][8]
+        previous_vehicle_D = vehicles[previous_vehicle][9]
         previous_vehicle_curcap = capacities[previous_vehicle][1]
 
         if request == previous_request and vehicle_O == previous_vehicle_O and vehicle_D == previous_vehicle_D:
