@@ -1,12 +1,8 @@
 import read_files
+import time_windows_3
+import numpy as np
 
-E_matrix_All = read_files.E_matrix_All
-H_matrix = read_files.H_matrix
-
-# Order of visited nodes
-traject = []
-
-def a_star(graph, heuristic, start, goal, traject):
+def a_star(graph, heuristic, start, goal):
     """
     Finds the shortest distance between two nodes using the A-star (A*) algorithm
     :param graph: an adjacency-matrix-representation of the graph where (x,y) is the weight of the edge or 0 if there is no edge.
@@ -15,6 +11,8 @@ def a_star(graph, heuristic, start, goal, traject):
     :param goal: the node we're searching for
     :return: The shortest distance to the goal node. Can be easily modified to return the path.
     """
+    # Order of visited nodes
+    traject = []
 
     # This contains the distances from the start node to all other nodes, initialized with a distance of "Infinity"
     distances = [float("inf")] * len(graph)
@@ -49,12 +47,12 @@ def a_star(graph, heuristic, start, goal, traject):
         elif lowest_priority_index == goal:
             # Goal node found
             traject.append(lowest_priority_index)
-            print("Visiting node " + f"{lowest_priority_index}" + " with currently lowest priority of " + f"{lowest_priority}")
-            print("Goal node found!")
+            # print("Visiting node " + f"{lowest_priority_index}" + " with currently lowest priority of " + f"{lowest_priority}")
+            # print("Goal node found!")
             return traject
 
         traject.append(lowest_priority_index)
-        print("Visiting node " + f"{lowest_priority_index}" + " with currently lowest priority of " + f"{lowest_priority}")
+        # print("Visiting node " + f"{lowest_priority_index}" + " with currently lowest priority of " + f"{lowest_priority}")
 
 
         # ...then, for all neighboring nodes that haven't been visited yet....
@@ -75,22 +73,41 @@ def a_star(graph, heuristic, start, goal, traject):
                 # print("Currently lowest distances: " + f"\n{distances}")
 
 
-a = a_star(graph= E_matrix_All,
-       heuristic= H_matrix,
-       start= 1,
-       goal= 8,
-       traject= traject)
-
-
-def get_vehicles_from_astar(traject, vehicles, requests, request_id, time_window_matrix):
+def get_vehicles_from_astar(traject, vehicles, request_id, time_window_matrix):
     used_vehicles = []
-    for t in range(len(traject)):
-        if np.abs(traject[t]-traject[t+1]) != [10, 20] and traject[t] < 10:
+    for t in range(len(traject)-1):
+        if np.abs(traject[t]-traject[t+1]) != 10 and np.abs(traject[t]-traject[t+1]) != 20 and traject[t] < 10:
             origin = traject[t]
             destination = traject[t+1]
+            print(origin)
+            print(destination)
+            print('barge')
 
             for v in range(len(vehicles)):
-                if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 1 and time_window_matrix[v][request_id] == 1:
+                if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 1:
                     used_vehicles.append(vehicles[v][0])
 
 
+        elif np.abs(traject[t]-traject[t+1]) != 10 and np.abs(traject[t]-traject[t+1]) != 20 and 10 <= traject[t] < 20:
+            origin = traject[t]-10
+            destination = traject[t + 1]-10
+            print(origin)
+            print(destination)
+            print('train')
+
+            for v in range(len(vehicles)):
+                if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 2:
+                    used_vehicles.append(vehicles[v][0])
+
+        elif np.abs(traject[t]-traject[t+1]) != 10 and np.abs(traject[t]-traject[t+1]) != 20 and traject[t] >= 20:
+            origin = traject[t] - 20
+            destination = traject[t + 1] - 20
+            print(origin)
+            print(destination)
+            print('truck')
+
+            for v in range(len(vehicles)):
+                if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 3:
+                    used_vehicles.append(vehicles[v][0])
+
+    return used_vehicles

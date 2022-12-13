@@ -5,6 +5,7 @@ import read_files
 import time_windows_3
 import OD_matrices
 import capacity_vehicles
+import A_star
 import logbook
 
 # Initial variables
@@ -14,10 +15,13 @@ closed_requests = []
 vehicles = read_files.vehicles
 capacities = capacity_vehicles.capacity_matrix(vehicles= vehicles)
 assigned_requests = logbook.assigned_requests_matrix(vehicles= vehicles, requests= requests)
+E_matrix_All = read_files.E_matrix_All
+H_matrix = read_files.H_matrix
 
 # Decision matrices for selecting possible vehicles
 time_window_barge = time_windows_3.time_matrix_barge(requests= requests)
 time_window_train = time_windows_3.time_matrix_train(requests= requests)
+time_window_combined = time_window_train+time_window_barge
 O_matrix_barge = OD_matrices.O_matrix_barge(requests= requests)
 D_matrix_barge = OD_matrices.D_matrix_barge(requests= requests)
 O_matrix_train = OD_matrices.O_matrix_train(requests= requests)
@@ -60,6 +64,28 @@ for r in range(len(requests)):
                                                                            request_id=r,
                                                                            assigned_requests=assigned_requests)
 
-#Astar assignments:....
-# for r in range(len(requests)) and not in closed_requests:
-#     CTE_matrix =
+#Astar requests:
+for r in range(len(requests)):
+    # if r not in closed_requests:
+    if r == 4:
+        capacity_check = capacity_vehicles.capacity_check(requests= requests, capacities= capacities, vehicles= vehicles)
+        CTE_matrix = OD_matrices.CTE_matrix(E_matrix= E_matrix_All,
+                                            vehicles= vehicles,
+                                            time_window_matrix= time_window_combined,
+                                            request_id= r,
+                                            capacity_check= capacity_check)
+
+        traject = A_star.a_star(graph= CTE_matrix,
+                               heuristic= H_matrix,
+                               start= requests[r][0],
+                               goal= requests[r][1])
+
+        used_vehicles = A_star.get_vehicles_from_astar(traject= traject,
+                                                    vehicles= vehicles,
+                                                    request_id= r,
+                                                    time_window_matrix= time_window_combined)
+
+
+
+        print(traject)
+        print(used_vehicles)
