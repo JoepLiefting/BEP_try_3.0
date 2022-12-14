@@ -13,6 +13,7 @@ requests = read_files.R
 # requests = np.delete(requests, 24, 0)
 open_requests = requests.copy()
 closed_requests = []
+invalid_requests = []
 vehicles = read_files.vehicles
 capacities = capacity_vehicles.capacity_matrix(vehicles=vehicles)
 assigned_requests = logbook.assigned_requests_matrix(vehicles=vehicles, requests=requests)
@@ -79,7 +80,8 @@ for r in range(len(requests)):
     request_id = requests[r][7] - 100000
     used_vehicles = []
     if request_id not in closed_requests:
-        capacity_check = capacity_vehicles.capacity_check(requests=requests, capacities=capacities, vehicles=vehicles)
+        capacity_check = capacity_vehicles.capacity_check(requests=requests, capacities=capacities,
+                                                          vehicles=vehicles)
         CTE_matrix = OD_matrices.CTE_matrix(E_matrix=E_matrix_All,
                                             vehicles=vehicles,
                                             time_window_matrix=time_window_combined,
@@ -88,13 +90,14 @@ for r in range(len(requests)):
 
         traject = A_star.a_star(graph=CTE_matrix,
                                 heuristic=H_matrix,
-                                start=requests[r][0],
-                                goal=requests[r][1])
+                                start=requests[request_id][0],
+                                goal=requests[request_id][1])
 
         unique_used_vehicles = A_star.get_vehicles_from_astar(traject=traject,
                                                               vehicles=vehicles,
                                                               request_id=r,
                                                               time_window_matrix=time_window_combined)
+
         print(request_id)
 
         # print(unique_used_vehicles)
@@ -109,4 +112,3 @@ for r in range(len(requests)):
                                                                     assigned_requests=assigned_requests)
 
         closed_requests.append(request_id)
-

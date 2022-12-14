@@ -74,6 +74,7 @@ def a_star(graph, heuristic, start, goal):
 
 
 def get_vehicles_from_astar(traject, vehicles, request_id, time_window_matrix):
+    global destination
     used_vehicles = []
     for t in range(len(traject)-1):
         if np.abs(traject[t]-traject[t+1]) != 10 and np.abs(traject[t]-traject[t+1]) != 20 and traject[t] < 10:
