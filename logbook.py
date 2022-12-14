@@ -52,3 +52,15 @@ def assign_request_to_vehicle(open_requests, closed_requests, vehicles, capaciti
     return assigned_requests
 
 
+def assignment_check(requests, vehicles, assigned_requests):
+    wrong_requests = []
+    for r in range(len(requests)):
+        request_id = requests[r]
+        som = 0
+        for v in range(len(vehicles)):
+            if assigned_requests[v][request_id] == 1:
+                som = som + 1
+        if som == 0:
+            wrong_requests.append(request_id)
+
+    return wrong_requests

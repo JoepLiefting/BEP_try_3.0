@@ -10,6 +10,7 @@ import logbook
 
 # Initial variables
 requests = read_files.R
+# requests = np.delete(requests, 24, 0)
 open_requests = requests.copy()
 closed_requests = []
 vehicles = read_files.vehicles
@@ -71,6 +72,8 @@ for r in range(len(requests)):
             if assigned_requests[v][r] == 1 and r not in closed_requests:
                 closed_requests.append(r)
 
+print(closed_requests)
+
 # Astar requests:
 for r in range(len(requests)):
     request_id = requests[r][7] - 100000
@@ -92,6 +95,8 @@ for r in range(len(requests)):
                                                               vehicles=vehicles,
                                                               request_id=r,
                                                               time_window_matrix=time_window_combined)
+        print(request_id)
+
         # print(unique_used_vehicles)
         for v in range(len(unique_used_vehicles)):
             vehicle_id = int(unique_used_vehicles[v])
@@ -104,3 +109,4 @@ for r in range(len(requests)):
                                                                     assigned_requests=assigned_requests)
 
         closed_requests.append(request_id)
+
