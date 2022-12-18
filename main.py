@@ -7,10 +7,10 @@ import OD_matrices
 import capacity_vehicles
 import A_star
 import logbook
+import Results
 
 # Initial variables
 requests = read_files.R
-# requests = np.delete(requests, 24, 0)
 open_requests = requests.copy()
 closed_requests = []
 invalid_requests = []
@@ -19,6 +19,10 @@ capacities = capacity_vehicles.capacity_matrix(vehicles=vehicles)
 assigned_requests = logbook.assigned_requests_matrix(vehicles=vehicles, requests=requests)
 E_matrix_All = read_files.E_matrix_All
 H_matrix = read_files.H_matrix
+results_matrix_requests = Results.generate_results_matrix_requests(requests= requests)
+trajecten = []
+a_star_requests = []
+a_star_used_vehicles = []
 
 # Decision matrices for selecting possible vehicles
 time_window_barge = time_windows_3.time_matrix_barge(requests=requests)
@@ -98,6 +102,10 @@ for r in range(len(requests)):
                                                               request_id=r,
                                                               time_window_matrix=time_window_combined)
 
+        trajecten.append(traject)
+        a_star_requests.append(request_id)
+        a_star_used_vehicles.append(unique_used_vehicles)
+
         print(request_id)
 
         # print(unique_used_vehicles)
@@ -112,3 +120,26 @@ for r in range(len(requests)):
                                                                     assigned_requests=assigned_requests)
 
         closed_requests.append(request_id)
+
+#Generate results for statistics
+
+#Put distances in results_matrix
+Results.distances_from_assigned(assigned_requests= assigned_requests,
+                                vehicles= vehicles,
+                                requests= requests,
+                                results_matrix_requests= results_matrix_requests)
+
+#Put emissions in results_matrix
+Results.emissions_from_assigned(assigned_requests= assigned_requests,
+                                vehicles= vehicles,
+                                requests= requests,
+                                results_matrix_requests= results_matrix_requests,
+                                H_matrix= H_matrix)
+
+#Put times in results_matrix
+Results.times_from_assigned(assigned_requests= assigned_requests,
+                            requests= requests,
+                            vehicles= vehicles,
+                            results_matrix_requests= results_matrix_requests,
+                            trajecten= trajecten,
+                            a_star_requests= a_star_requests)
