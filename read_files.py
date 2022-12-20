@@ -35,7 +35,7 @@ vehicle_dict = {'Barge1': 0, 'Barge2': 1, 'Barge3': 2, 'Barge4': 3, 'Barge5': 4,
                 'Truck21': 102, 'Truck22': 103, 'Truck23': 104, 'Truck24': 105,
 
                 'Truck25': 106, 'Truck26': 107, 'Truck27': 108, 'Truck28': 109, 'Truck29': 110, 'Truck30': 111,
-                'Truck31': 112, 'Truck32': 113, 'Truck33': 114, 'Truck34': 115}
+                'Truck31': 112, 'Truck32': 113, 'Truck33': 114, 'Truck34': 115, 'Truck35': 116}
 
 
 def read_D(what, K):
@@ -333,7 +333,7 @@ Data = pd.ExcelFile(data_path)
 
 # number of requests, it can be 5, 10, 20, 30, 50, 100, 200, 400, 700, 1000, 1300, 1600
 
-request_number_in_R = 10
+request_number_in_R = 100
 
 # terminals
 
@@ -416,8 +416,8 @@ for i in range(len(H_matrix)):
             H_matrix[i][j] = 0
 
 E_path = "Instances/E_EGS-r.xlsx"
-E_matrix_All = pd.read_excel(E_path, 'All_vehicles')
-E_matrix_All = E_matrix_All.set_index('N_All')
+E_matrix_All = pd.read_excel(E_path, 'Allv')
+E_matrix_All = E_matrix_All.set_index('N')
 E_matrix_All = E_matrix_All.values
 for i in range(len(E_matrix_All)):
     for j in range(len(E_matrix_All)):
