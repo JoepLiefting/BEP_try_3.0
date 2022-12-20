@@ -195,14 +195,25 @@ def read_R_K(request_number_in_R, what='all'):
 
         R['d'] = R['d'].map(names).fillna(R['d'])
 
-        R.insert(7, 'r', range(len(R)))
+        R.insert(7, 'r', range(len(R))) #kolom voor ID
+        R.insert(8, 'y', 0) #kolom voor bezorgdagen
 
         R = R.values
 
-        # change name of r to -carrier00request_number
+
+
+        for index in range(len(R)):
+            R[index, 8] = (R[index, 3] - R[index, 2])/24
+
+        #sorteren
+        R = R[R[:, 2].argsort()]
+        R = R[R[:, 8].argsort(kind='mergesort')]
+
+
 
         for index in range(len(R)):
             R[index, 7] = R[index, 7] + 100000 * parallel_number
+
 
         c_delay_list = []
 
@@ -410,10 +421,10 @@ for i in range(len(H_matrix)):
         if H_matrix[i][j] == 0:
             H_matrix[i][j] = 0.01
 
-for i in range(len(H_matrix)):
-    for j in range(len(H_matrix)):
-        if H_matrix[i][j] == 1000000:
-            H_matrix[i][j] = 0
+# for i in range(len(H_matrix)):
+#     for j in range(len(H_matrix)):
+#         if H_matrix[i][j] == 1000000:
+#             H_matrix[i][j] = 0
 
 E_path = "Instances/E_EGS-r.xlsx"
 E_matrix_All = pd.read_excel(E_path, 'Allv')
@@ -424,10 +435,10 @@ for i in range(len(E_matrix_All)):
         if E_matrix_All[i][j] == 0:
             E_matrix_All[i][j] = 0.01
 
-for i in range(len(E_matrix_All)):
-    for j in range(len(E_matrix_All)):
-        if E_matrix_All[i][j] == 1000000:
-            E_matrix_All[i][j] = 0
+# for i in range(len(E_matrix_All)):
+#     for j in range(len(E_matrix_All)):
+#         if E_matrix_All[i][j] == 1000000:
+#             E_matrix_All[i][j] = 0
 
 # Vehicles = pd.ExcelFile(vehicles_path)
 # curcap = pd.read_excel(Vehicles, 'K', usecols=['curcap'])
