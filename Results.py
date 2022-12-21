@@ -70,7 +70,6 @@ def times_from_assigned(assigned_requests, requests, vehicles, results_matrix_re
                     i = 0
                 elif vehicles[vehicle][7] == 3:
                     truck_time_after += vehicles[vehicle][16]
-                    print(truck_time_after)
                     i = i - 1
 
     return results_matrix_requests
