@@ -196,18 +196,18 @@ def read_R_K(request_number_in_R, what='all'):
         R['d'] = R['d'].map(names).fillna(R['d'])
 
         R.insert(7, 'r', range(len(R))) #kolom voor ID
-        R.insert(8, 'y', 0) #kolom voor bezorgdagen
+        # R.insert(8, 'y', 0) #kolom voor bezorgdagen
 
         R = R.values
 
 
 
-        for index in range(len(R)):
-            R[index, 8] = (R[index, 3] - R[index, 2])/24
+        # for index in range(len(R)):
+        #     R[index, 8] = (R[index, 3] - R[index, 2])/24
 
-        #sorteren
-        R = R[R[:, 2].argsort()]
-        R = R[R[:, 8].argsort(kind='mergesort')]
+        # #sorteren
+        # R = R[R[:, 2].argsort()]
+        # R = R[R[:, 8].argsort(kind='mergesort')]
 
 
 
@@ -344,7 +344,7 @@ Data = pd.ExcelFile(data_path)
 
 # number of requests, it can be 5, 10, 20, 30, 50, 100, 200, 400, 700, 1000, 1300, 1600
 
-request_number_in_R = 100
+request_number_in_R = 10
 
 # terminals
 

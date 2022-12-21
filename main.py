@@ -23,11 +23,13 @@ results_matrix_requests = Results.generate_results_matrix_requests(requests= req
 trajecten = []
 a_star_requests = []
 a_star_used_vehicles = []
+times_trucks = read_files.T[100]
 
 # Decision matrices for selecting possible vehicles
 time_window_barge = time_windows_3.time_matrix_barge(requests=requests)
 time_window_train = time_windows_3.time_matrix_train(requests=requests)
-time_window_combined = time_window_train + time_window_barge
+time_window_truck = time_windows_3.time_matrix_truck(requests=requests)
+time_window_combined = time_window_train + time_window_barge + time_window_truck
 O_matrix_barge = OD_matrices.O_matrix_barge(requests=requests)
 D_matrix_barge = OD_matrices.D_matrix_barge(requests=requests)
 O_matrix_train = OD_matrices.O_matrix_train(requests=requests)
@@ -53,7 +55,8 @@ for r in range(len(requests)):
                                                                            capacities=capacities,
                                                                            vehicle_id=v,
                                                                            request_id=r,
-                                                                           assigned_requests=assigned_requests)
+                                                                           assigned_requests=assigned_requests,
+                                                                           time_window= time_window_combined)
 
             if assigned_requests[v][r] == 1 and r not in closed_requests:
                 closed_requests.append(r)
@@ -73,7 +76,8 @@ for r in range(len(requests)):
                                                                            capacities=capacities,
                                                                            vehicle_id=v,
                                                                            request_id=r,
-                                                                           assigned_requests=assigned_requests)
+                                                                           assigned_requests=assigned_requests,
+                                                                           time_window= time_window_combined)
             if assigned_requests[v][r] == 1 and r not in closed_requests:
                 closed_requests.append(r)
 
@@ -86,10 +90,11 @@ for r in range(len(requests)):
     if request_id not in closed_requests:
         capacity_check = capacity_vehicles.capacity_check(requests=requests, capacities=capacities,
                                                           vehicles=vehicles)
+
         CTE_matrix = OD_matrices.CTE_matrix(E_matrix=E_matrix_All,
                                             vehicles=vehicles,
                                             time_window_matrix=time_window_combined,
-                                            request_id=r,
+                                            request_id=request_id,
                                             capacity_check=capacity_check)
 
         traject = A_star.a_star(graph=CTE_matrix,
@@ -117,7 +122,8 @@ for r in range(len(requests)):
                                                                     capacities=capacities,
                                                                     vehicle_id=vehicle_id,
                                                                     request_id=request_id,
-                                                                    assigned_requests=assigned_requests)
+                                                                    assigned_requests=assigned_requests,
+                                                                    time_window= time_window_combined)
 
         closed_requests.append(request_id)
 
@@ -141,5 +147,11 @@ Results.times_from_assigned(assigned_requests= assigned_requests,
                             requests= requests,
                             vehicles= vehicles,
                             results_matrix_requests= results_matrix_requests,
-                            trajecten= trajecten,
+                            a_star_used_vehicles= a_star_used_vehicles,
                             a_star_requests= a_star_requests)
+
+#Calculate delays
+Results.delay(requests= requests, results_matrix_requests= results_matrix_requests)
+
+#Time request with truck
+Results.time_increased(requests= requests, results_matrix_requests= results_matrix_requests, times_trucks= times_trucks)

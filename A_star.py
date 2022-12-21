@@ -90,7 +90,7 @@ def get_vehicles_from_astar(traject, vehicles, request_id, time_window_matrix):
             # print('barge')
 
             for v in range(len(vehicles)):
-                if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 1:
+                if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 1 and time_window_matrix[v][request_id] == 1:
                     used_vehicles.append(vehicles[v][0])
 
 
@@ -107,7 +107,7 @@ def get_vehicles_from_astar(traject, vehicles, request_id, time_window_matrix):
             # print('train')
 
             for v in range(len(vehicles)):
-                if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 2:
+                if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 2 and time_window_matrix[v][request_id] == 1:
                     used_vehicles.append(vehicles[v][0])
 
         elif np.abs(traject[t]-traject[t+1]) != 10 and np.abs(traject[t]-traject[t+1]) != 20 and traject[t] >= 20:
@@ -123,7 +123,7 @@ def get_vehicles_from_astar(traject, vehicles, request_id, time_window_matrix):
             # print('truck')
 
             for v in range(len(vehicles)):
-                if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 3:
+                if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 3 and time_window_matrix[v][request_id] == 1:
                     used_vehicles.append(vehicles[v][0])
 
     unique_used_vehicles = used_vehicles.copy()
@@ -137,5 +137,4 @@ def get_vehicles_from_astar(traject, vehicles, request_id, time_window_matrix):
 
         if vehicle_O == previous_vehicle_O and vehicle_D == previous_vehicle_D:
             unique_used_vehicles.remove(vehicle)
-
     return unique_used_vehicles

@@ -9,7 +9,7 @@ def assigned_requests_matrix(vehicles, requests):
     return assigned_requests
 
 
-def assignment_lowest_capacity(vehicles, capacities, assignments):
+def assignment_lowest_capacity(vehicles, capacities, assignments, time_window_matrix):
     unique_assignments = assignments.copy()
 
     for v in range(len(assignments[0]) - 1):
@@ -35,7 +35,7 @@ def assignment_lowest_capacity(vehicles, capacities, assignments):
 
 
 def assign_request_to_vehicle(open_requests, closed_requests, vehicles, capacities, vehicle_id, request_id,
-                              assigned_requests):
+                              assigned_requests, time_window):
     assignment_request = request_id
     assignment_vehicle = vehicle_id
     capacity_check = capacity_vehicles.capacity_check(requests=open_requests, capacities=capacities, vehicles=vehicles)
@@ -55,7 +55,7 @@ def assign_request_to_vehicle(open_requests, closed_requests, vehicles, capaciti
 def assignment_check(requests, vehicles, assigned_requests):
     wrong_requests = []
     for r in range(len(requests)):
-        request_id = requests[r]
+        request_id = requests[r][7] - 100000
         som = 0
         for v in range(len(vehicles)):
             if assigned_requests[v][request_id] == 1:

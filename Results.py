@@ -38,18 +38,57 @@ def emissions_from_assigned(assigned_requests, requests, vehicles, results_matri
     return results_matrix_requests
 
 
-def times_from_assigned(assigned_requests, requests, vehicles, results_matrix_requests, trajecten, a_star_requests):
+def times_from_assigned(assigned_requests, requests, vehicles, results_matrix_requests, a_star_used_vehicles,
+                        a_star_requests):
     for r in range(len(requests)):
+        request_id = int(requests[r][7] - 100000)
         for v in range(len(vehicles)):
-            request_id = requests[r][7] - 100000
             if request_id not in a_star_requests and assigned_requests[v][request_id] == 1:
                 results_matrix_requests[request_id][4] = vehicles[v][11]
                 results_matrix_requests[request_id][5] = vehicles[v][12]
 
-            elif request_id in a_star_requests and assigned_requests[v][request_id] == 1:
-                traject_index = a_star_requests.index(request_id)
-                for t in range(len(trajecten[traject_index])-1):
-                    vehicle = trajecten[traject_index][t+1]
-                    previous_vehicle = trajecten[traject_index][t]
+        if request_id in a_star_requests:
+            used_vehicle_index = a_star_requests.index(request_id)
+            k = 0
+            truck_time_before = 0
+            while k < len(a_star_used_vehicles[used_vehicle_index]):
+                vehicle = int(a_star_used_vehicles[used_vehicle_index][k])
+                if vehicles[vehicle][7] != 3:
+                    results_matrix_requests[request_id][4] = vehicles[vehicle][11] - truck_time_before
+                    k = len(a_star_used_vehicles[used_vehicle_index]) + 1
+                elif vehicles[vehicle][7] == 3:
+                    truck_time_before += vehicles[vehicle][16]
+                    k = k + 1
+
+            i = len(a_star_used_vehicles[used_vehicle_index])
+            truck_time_after = 0
+            while i > 0:
+                vehicle = int(a_star_used_vehicles[used_vehicle_index][i - 1])
+                if vehicles[vehicle][7] != 3:
+                    results_matrix_requests[request_id][5] = vehicles[vehicle][12] + truck_time_after
+                    # print(vehicles[vehicle][11], truck_time_after)
+                    i = 0
+                elif vehicles[vehicle][7] == 3:
+                    truck_time_after += vehicles[vehicle][16]
+                    print(truck_time_after)
+                    i = i - 1
 
     return results_matrix_requests
+
+
+def delay(requests, results_matrix_requests):
+    for r in range(len(results_matrix_requests)):
+        request_id = int(results_matrix_requests[r][0] - 100000)
+        bp = requests[request_id][5]
+        results_matrix_requests[request_id][6] = results_matrix_requests[request_id][5] - bp
+        # if results_matrix_requests[request_id][6] < 0:
+        #     results_matrix_requests[request_id][6] = 0
+    return results_matrix_requests
+
+
+def time_increased(requests, results_matrix_requests, times_trucks):
+    for r in range(len(results_matrix_requests)):
+        request_id = int(results_matrix_requests[r][0] - 100000)
+        origin = requests[request_id][0]
+        destination = requests[request_id][1]
+        results_matrix_requests[request_id][8] = times_trucks[origin][destination]
