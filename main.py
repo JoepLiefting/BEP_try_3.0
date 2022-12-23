@@ -155,3 +155,6 @@ Results.delay(requests= requests, results_matrix_requests= results_matrix_reques
 
 #Time request with truck
 Results.time_increased(requests= requests, results_matrix_requests= results_matrix_requests, times_trucks= times_trucks)
+
+#Overlap
+Results.overlap(vehicles= vehicles, results_matrix_requests= results_matrix_requests, a_star_used_vehicles= a_star_used_vehicles, a_star_requests= a_star_requests)

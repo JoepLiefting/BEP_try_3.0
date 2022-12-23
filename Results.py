@@ -91,3 +91,42 @@ def time_increased(requests, results_matrix_requests, times_trucks):
         origin = requests[request_id][0]
         destination = requests[request_id][1]
         results_matrix_requests[request_id][8] = times_trucks[origin][destination]
+
+
+def overlap(vehicles, results_matrix_requests, a_star_used_vehicles, a_star_requests):
+    for r in range(len(results_matrix_requests)):
+        request_id = int(results_matrix_requests[r][0] - 100000)
+        current_time = results_matrix_requests[request_id][4]
+        if request_id in a_star_requests:
+            index = a_star_requests.index(request_id)
+            used_vehicles = a_star_used_vehicles[index]
+            overlap_var = 0
+            print(overlap_var)
+            for v in range(len(used_vehicles) - 1):
+                vehicle = int(used_vehicles[v + 1])
+                previous_vehicle = int(used_vehicles[v])
+                if vehicles[previous_vehicle][7] != 3:
+                    delivery_previous_vehicle = vehicles[previous_vehicle][12]
+                    current_time = delivery_previous_vehicle
+                    if vehicles[vehicle][7] != 3:
+                        pickup_vehicle = vehicles[vehicle][11]
+                        if pickup_vehicle < current_time:
+                            overlap_var += (current_time - pickup_vehicle)
+                            print(overlap_var)
+                        current_time = vehicles[vehicle][12]
+                    elif vehicles[vehicle][7] == 3:
+                        current_time += vehicles[vehicle][16]
+
+                elif vehicles[previous_vehicle][7] == 3:
+                    if vehicles[vehicle][7] != 3:
+                        pickup_vehicle = vehicles[vehicle][11]
+                        if pickup_vehicle < current_time:
+                            overlap_var += (current_time - pickup_vehicle)
+                            print(overlap_var)
+                        current_time = vehicles[vehicle][12]
+                    elif vehicles[vehicle][7] == 3:
+                        current_time += vehicles[vehicle][16]
+
+            results_matrix_requests[request_id][7] = overlap_var
+
+    return results_matrix_requests
