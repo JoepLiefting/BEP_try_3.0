@@ -6,6 +6,7 @@ import time_windows_3
 import OD_matrices
 import capacity_vehicles
 import A_star
+import A_star_time
 import logbook
 import Results
 
@@ -19,7 +20,7 @@ capacities = capacity_vehicles.capacity_matrix(vehicles=vehicles)
 assigned_requests = logbook.assigned_requests_matrix(vehicles=vehicles, requests=requests)
 E_matrix_All = read_files.E_matrix_All
 H_matrix = read_files.H_matrix
-results_matrix_requests = Results.generate_results_matrix_requests(requests= requests)
+results_matrix_requests = Results.generate_results_matrix_requests(requests=requests)
 trajecten = []
 a_star_requests = []
 a_star_used_vehicles = []
@@ -56,7 +57,7 @@ for r in range(len(requests)):
                                                                            vehicle_id=v,
                                                                            request_id=r,
                                                                            assigned_requests=assigned_requests,
-                                                                           time_window= time_window_combined)
+                                                                           time_window=time_window_combined)
 
             if assigned_requests[v][r] == 1 and r not in closed_requests:
                 closed_requests.append(r)
@@ -77,7 +78,7 @@ for r in range(len(requests)):
                                                                            vehicle_id=v,
                                                                            request_id=r,
                                                                            assigned_requests=assigned_requests,
-                                                                           time_window= time_window_combined)
+                                                                           time_window=time_window_combined)
             if assigned_requests[v][r] == 1 and r not in closed_requests:
                 closed_requests.append(r)
 
@@ -97,25 +98,29 @@ for r in range(len(requests)):
                                             request_id=request_id,
                                             capacity_check=capacity_check)
 
-        traject = A_star.a_star(graph=CTE_matrix,
-                                heuristic=H_matrix,
-                                start=requests[request_id][0],
-                                goal=requests[request_id][1])
+        # Aanpassen time
+        used_vehicles = A_star_time.a_star_time(graph=CTE_matrix,
+                                                heuristic=H_matrix,
+                                                start=requests[request_id][0],
+                                                goal=requests[request_id][1],
+                                                vehicles=vehicles,
+                                                requests=requests,
+                                                request_id=request_id)
 
-        unique_used_vehicles = A_star.get_vehicles_from_astar(traject=traject,
-                                                              vehicles=vehicles,
-                                                              request_id=r,
-                                                              time_window_matrix=time_window_combined)
+        # unique_used_vehicles = A_star.get_vehicles_from_astar(traject=traject,
+        #                                                       vehicles=vehicles,
+        #                                                       request_id=r,
+        #                                                       time_window_matrix=time_window_combined)
 
-        trajecten.append(traject)
+        # trajecten.append(traject)
         a_star_requests.append(request_id)
-        a_star_used_vehicles.append(unique_used_vehicles)
-
-        print(request_id)
+        a_star_used_vehicles.append(used_vehicles)
+        print(used_vehicles)
+        print(f"Request_id: {request_id} ----------------------------------------------------------------------")
 
         # print(unique_used_vehicles)
-        for v in range(len(unique_used_vehicles)):
-            vehicle_id = int(unique_used_vehicles[v])
+        for v in range(len(used_vehicles)):
+            vehicle_id = int(used_vehicles[v])
             assign_astar_routes = logbook.assign_request_to_vehicle(open_requests=open_requests,
                                                                     closed_requests=closed_requests,
                                                                     vehicles=vehicles,
@@ -123,38 +128,39 @@ for r in range(len(requests)):
                                                                     vehicle_id=vehicle_id,
                                                                     request_id=request_id,
                                                                     assigned_requests=assigned_requests,
-                                                                    time_window= time_window_combined)
+                                                                    time_window=time_window_combined)
 
         closed_requests.append(request_id)
 
-#Generate results for statistics
+# Generate results for statistics
 
-#Put distances in results_matrix
-Results.distances_from_assigned(assigned_requests= assigned_requests,
-                                vehicles= vehicles,
-                                requests= requests,
-                                results_matrix_requests= results_matrix_requests)
+# Put distances in results_matrix
+Results.distances_from_assigned(assigned_requests=assigned_requests,
+                                vehicles=vehicles,
+                                requests=requests,
+                                results_matrix_requests=results_matrix_requests)
 
-#Put emissions in results_matrix
-Results.emissions_from_assigned(assigned_requests= assigned_requests,
-                                vehicles= vehicles,
-                                requests= requests,
-                                results_matrix_requests= results_matrix_requests,
-                                H_matrix= H_matrix)
+# Put emissions in results_matrix
+Results.emissions_from_assigned(assigned_requests=assigned_requests,
+                                vehicles=vehicles,
+                                requests=requests,
+                                results_matrix_requests=results_matrix_requests,
+                                H_matrix=H_matrix)
 
-#Put times in results_matrix
-Results.times_from_assigned(assigned_requests= assigned_requests,
-                            requests= requests,
-                            vehicles= vehicles,
-                            results_matrix_requests= results_matrix_requests,
-                            a_star_used_vehicles= a_star_used_vehicles,
-                            a_star_requests= a_star_requests)
+# Put times in results_matrix
+Results.times_from_assigned(assigned_requests=assigned_requests,
+                            requests=requests,
+                            vehicles=vehicles,
+                            results_matrix_requests=results_matrix_requests,
+                            a_star_used_vehicles=a_star_used_vehicles,
+                            a_star_requests=a_star_requests)
 
-#Calculate delays
-Results.delay(requests= requests, results_matrix_requests= results_matrix_requests)
+# Calculate delays
+Results.delay(requests=requests, results_matrix_requests=results_matrix_requests)
 
-#Time request with truck
-Results.time_increased(requests= requests, results_matrix_requests= results_matrix_requests, times_trucks= times_trucks)
+# Time request with truck
+Results.time_increased(requests=requests, results_matrix_requests=results_matrix_requests, times_trucks=times_trucks)
 
-#Overlap
-Results.overlap(vehicles= vehicles, results_matrix_requests= results_matrix_requests, a_star_used_vehicles= a_star_used_vehicles, a_star_requests= a_star_requests)
+# Overlap
+Results.overlap(vehicles=vehicles, results_matrix_requests=results_matrix_requests,
+                a_star_used_vehicles=a_star_used_vehicles, a_star_requests=a_star_requests)
