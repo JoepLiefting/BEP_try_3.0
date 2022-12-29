@@ -10,17 +10,18 @@ import A_star_time
 import logbook
 import Results
 
-#Requests die errors geven
+# Requests die errors geven
 vervelend_5 = [4, 5]
-vervelend_10 = [] #leeg
+vervelend_10 = []  # leeg
 vervelend_20 = [12]
-vervelend_30 = [] #leeg
+vervelend_30 = []  # leeg
 vervelend_50 = [24, 36]
 vervelend_100 = [10, 12, 45, 80, 82, 87]
 vervelend_200 = [6, 9, 11, 23, 39, 48, 68, 74, 128, 134, 150, 164]
-vervelend_400 = [20, 62, 87, 120, 134, 153, 174, 176, 197, 234, 236, 239, 262, 278, 305, 308, 316, 318, 339, 345, 347, 348, 351, 369, 381, 399]
+vervelend_400 = [20, 62, 87, 120, 134, 153, 174, 176, 197, 234, 236, 239, 262, 278, 305, 308, 316, 318, 339, 345, 347,
+                 348, 351, 369, 381, 399]
 # number of requests, it can be 5, 10, 20, 30, 50, 100, 200, 400, 700, 1000, 1300, 1600
-vervelend = vervelend_400
+vervelend = []
 
 # Initial variables
 requests = read_files.R
@@ -36,7 +37,9 @@ results_matrix_requests = Results.generate_results_matrix_requests(requests=requ
 trajecten = []
 a_star_requests = []
 a_star_used_vehicles = []
+a_star_runs_all = []
 times_trucks = read_files.T[100]
+timed_out_requests = []
 
 # Decision matrices for selecting possible vehicles
 time_window_barge = time_windows_3.time_matrix_barge(requests=requests)
@@ -112,15 +115,13 @@ for r in range(len(requests)):
                                              capacity_check=capacity_check)
 
         # Aanpassen time
-        used_vehicles = A_star_time.a_star_time(CTE_matrix=CTE_matrix,
-                                                heuristic=H_matrix,
-                                                start=requests[request_id][0],
-                                                goal=requests[request_id][1] + 20,
-                                                vehicles=vehicles,
-                                                requests=requests,
-                                                request_id=r)
-
-        unique_used_vehicles = used_vehicles
+        used_vehicles, a_star_runs = A_star_time.a_star_time(CTE_matrix=CTE_matrix,
+                                                             heuristic=H_matrix,
+                                                             start=requests[request_id][0],
+                                                             goal=requests[request_id][1] + 20,
+                                                             vehicles=vehicles,
+                                                             requests=requests,
+                                                             request_id=r)
 
         # Aanpassen time
         # used_vehicles = A_star.a_star(graph=CTE_matrix,
@@ -133,26 +134,33 @@ for r in range(len(requests)):
         #                                                       request_id=r,
         #                                                       time_window_matrix=time_window_combined)
 
-        # trajecten.append(traject)
-        a_star_requests.append(request_id)
-        a_star_used_vehicles.append(unique_used_vehicles)
-        # print(used_vehicles)
-        print(unique_used_vehicles)
-        print(f"Request_id: {request_id} ----------------------------------------------------------------------")
+        if a_star_runs < 50:
+            unique_used_vehicles = used_vehicles
 
-        # print(unique_used_vehicles)
-        for v in range(len(unique_used_vehicles)):
-            vehicle_id = int(unique_used_vehicles[v])
-            assign_astar_routes = logbook.assign_request_to_vehicle(open_requests=open_requests,
-                                                                    closed_requests=closed_requests,
-                                                                    vehicles=vehicles,
-                                                                    capacities=capacities,
-                                                                    vehicle_id=vehicle_id,
-                                                                    request_id=request_id,
-                                                                    assigned_requests=assigned_requests,
-                                                                    time_window=time_window_combined)
+            # trajecten.append(traject)
+            a_star_requests.append(request_id)
+            a_star_used_vehicles.append(unique_used_vehicles)
+            a_star_runs_all.append(a_star_runs)
+            # print(used_vehicles)
+            print(unique_used_vehicles)
+            print(f"Request_id: {request_id} ----------------------------------------------------------------------")
 
-        closed_requests.append(request_id)
+            # print(unique_used_vehicles)
+            for v in range(len(unique_used_vehicles)):
+                vehicle_id = int(unique_used_vehicles[v])
+                assign_astar_routes = logbook.assign_request_to_vehicle(open_requests=open_requests,
+                                                                        closed_requests=closed_requests,
+                                                                        vehicles=vehicles,
+                                                                        capacities=capacities,
+                                                                        vehicle_id=vehicle_id,
+                                                                        request_id=request_id,
+                                                                        assigned_requests=assigned_requests,
+                                                                        time_window=time_window_combined)
+
+            closed_requests.append(request_id)
+        else:
+            unique_used_vehicles = []
+            timed_out_requests.append(request_id)
 
 # Generate results for statistics
 

@@ -344,7 +344,7 @@ Data = pd.ExcelFile(data_path)
 
 # number of requests, it can be 5, 10, 20, 30, 50, 100, 200, 400, 700, 1000, 1300, 1600
 
-request_number_in_R = 400
+request_number_in_R = 20
 
 # terminals
 

@@ -38,8 +38,10 @@ def a_star_time(CTE_matrix, heuristic, start, goal, vehicles, requests, request_
     # This contains whether a node was already visited
     visited = [False] * len(CTE_matrix)
 
+    a_star_runs = 0
+
     # While there are nodes left to visit...
-    while True:
+    while True and a_star_runs < 50:
         # ... find the node with the currently lowest priority...
         lowest_priority = float("inf")
         lowest_priority_index = -1
@@ -88,7 +90,7 @@ def a_star_time(CTE_matrix, heuristic, start, goal, vehicles, requests, request_
                             break
 
             # print(traject)
-            return used_vehicles
+            return used_vehicles, a_star_runs
 
         traject.append(lowest_priority_index)
         if len(traject) > 1 and np.abs(traject[-1] - traject[-2]) != 10 and np.abs(traject[-1] - traject[-2]) != 20:
@@ -121,8 +123,9 @@ def a_star_time(CTE_matrix, heuristic, start, goal, vehicles, requests, request_
                         used_vehicles.append(vehicles[v][0])
                         current_time += vehicles[v][16]
                         break
-        # print(used_vehicles)
-        # print(current_time)
+        a_star_runs += 1
+        print(used_vehicles)
+        print(current_time)
         OD_matrices.CTE_matrix_update(CTE_matrix=CTE_matrix, vehicles=vehicles, current_time=current_time)
 
         # ...then, for all neighboring nodes that haven't been visited yet....
@@ -141,8 +144,11 @@ def a_star_time(CTE_matrix, heuristic, start, goal, vehicles, requests, request_
                     # + f"\n{distances[i]}" + " and priority to " + f"\n{priorities[i]}")
                 # Lastly, note that we are finished with this node.
                 visited[lowest_priority_index] = True
+                # print(a_star_runs)
                 # print("Visited nodes: " + f"\n{visited}")
                 # print("Currently lowest distances: " + f"\n{distances}")
+
+    return used_vehicles, a_star_runs
 
 
 def get_vehicles_from_astar(traject, vehicles):
