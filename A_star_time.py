@@ -56,9 +56,39 @@ def a_star_time(CTE_matrix, heuristic, start, goal, vehicles, requests, request_
         elif lowest_priority_index == goal:
             # Goal node found
             traject.append(lowest_priority_index)
+            if len(traject) > 1 and np.abs(traject[-1] - traject[-2]) != 10 and np.abs(traject[-1] - traject[-2]) != 20:
+                if traject[-1] < 10:
+                    origin = traject[-2]
+                    destination = traject[-1]
+                    for v in range(len(vehicles)):
+                        if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 1 and \
+                                vehicles[v][0] and vehicles[v][10] >= current_time:
+                            used_vehicles.append(vehicles[v][0])
+                            current_time = vehicles[v][12]
+                            break
+
+                elif 10 <= traject[-1] < 20:
+                    origin = traject[-2] - 10
+                    destination = traject[-1] - 10
+                    for v in range(len(vehicles)):
+                        if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 2 and \
+                                vehicles[v][0] and vehicles[v][10] >= current_time:
+                            used_vehicles.append(vehicles[v][0])
+                            current_time = vehicles[v][12]
+                            break
+
+                elif traject[-1] >= 20:
+                    origin = traject[-2] - 20
+                    destination = traject[-1] - 20
+                    for v in range(len(vehicles)):
+                        if vehicles[v][8] == origin and vehicles[v][9] == destination and vehicles[v][7] == 3 and \
+                                vehicles[v][0]:
+                            used_vehicles.append(vehicles[v][0])
+                            current_time += vehicles[v][16]
+                            break
 
             # print(traject)
-            return traject
+            return used_vehicles
 
         traject.append(lowest_priority_index)
         if len(traject) > 1 and np.abs(traject[-1] - traject[-2]) != 10 and np.abs(traject[-1] - traject[-2]) != 20:

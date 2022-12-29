@@ -111,16 +111,18 @@ for r in range(len(requests)):
                                                 requests=requests,
                                                 request_id=r)
 
+        unique_used_vehicles = used_vehicles
+
         # Aanpassen time
         # used_vehicles = A_star.a_star(graph=CTE_matrix,
         #                               heuristic=H_matrix,
         #                               start=requests[request_id][0],
         #                               goal=requests[request_id][1] + 20)
 
-        unique_used_vehicles = A_star.get_vehicles_from_astar(traject=used_vehicles,
-                                                              vehicles=vehicles,
-                                                              request_id=r,
-                                                              time_window_matrix=time_window_combined)
+        # unique_used_vehicles = A_star.get_vehicles_from_astar(traject=used_vehicles,
+        #                                                       vehicles=vehicles,
+        #                                                       request_id=r,
+        #                                                       time_window_matrix=time_window_combined)
 
         # trajecten.append(traject)
         a_star_requests.append(request_id)
