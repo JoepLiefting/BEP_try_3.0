@@ -80,8 +80,8 @@ def delay(requests, results_matrix_requests):
         request_id = int(results_matrix_requests[r][0] - 100000)
         bp = requests[request_id][5]
         results_matrix_requests[request_id][6] = results_matrix_requests[request_id][5] - bp
-        # if results_matrix_requests[request_id][6] < 0:
-        #     results_matrix_requests[request_id][6] = 0
+        if results_matrix_requests[request_id][6] < 0:
+            results_matrix_requests[request_id][6] = 0
     return results_matrix_requests
 
 

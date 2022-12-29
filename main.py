@@ -100,19 +100,22 @@ for r in range(len(requests)):
                                             capacity_check=capacity_check)
 
         # Aanpassen time
-        used_vehicles = A_star.a_star(graph=CTE_matrix,
+        used_vehicles = A_star_time.a_star_time(CTE_matrix=CTE_matrix,
                                                 heuristic=H_matrix,
                                                 start=requests[request_id][0],
-                                                goal=requests[request_id][1]+20)
+                                                goal=requests[request_id][1]+20,
+                                                vehicles=vehicles,
+                                                requests=requests,
+                                                request_id=r)
 
         unique_used_vehicles = A_star.get_vehicles_from_astar(traject=used_vehicles,
                                                               vehicles=vehicles,
-                                                              request_id= r,
-                                                              time_window_matrix= time_window_combined)
+                                                              request_id=r,
+                                                              time_window_matrix=time_window_combined)
 
         # trajecten.append(traject)
         a_star_requests.append(request_id)
-        a_star_used_vehicles.append(used_vehicles)
+        a_star_used_vehicles.append(unique_used_vehicles)
         print(used_vehicles)
         print(unique_used_vehicles)
         print(f"Request_id: {request_id} ----------------------------------------------------------------------")
