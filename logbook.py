@@ -59,7 +59,7 @@ def assignment_check(requests, vehicles, assigned_requests):
         som = 0
         for v in range(len(vehicles)):
             if assigned_requests[v][request_id] == 1:
-                som = som + 1
+                som += 1
         if som == 0:
             wrong_requests.append(request_id)
 
