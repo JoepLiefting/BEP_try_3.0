@@ -121,8 +121,8 @@ def a_star_time(CTE_matrix, heuristic, start, goal, vehicles, requests, request_
                         used_vehicles.append(vehicles[v][0])
                         current_time += vehicles[v][16]
                         break
-        print(used_vehicles)
-        print(current_time)
+        # print(used_vehicles)
+        # print(current_time)
         OD_matrices.CTE_matrix_update(CTE_matrix=CTE_matrix, vehicles=vehicles, current_time=current_time)
 
         # ...then, for all neighboring nodes that haven't been visited yet....
