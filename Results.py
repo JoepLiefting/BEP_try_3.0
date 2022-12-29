@@ -2,7 +2,7 @@ import numpy as np
 
 
 def generate_results_matrix_requests(requests):
-    results_matrix_requests = np.zeros((len(requests), 11))
+    results_matrix_requests = np.zeros((len(requests), 12))
     for r in range(len(requests)):
         results_matrix_requests[r][0] = int(requests[r][7])
     return results_matrix_requests
@@ -34,6 +34,7 @@ def emissions_from_assigned(assigned_requests, requests, vehicles, results_matri
             origin = requests[r][0]
             destination = requests[r][1]
             results_matrix_requests[r][10] = H_matrix[origin][destination]
+            results_matrix_requests[r][11] = results_matrix_requests[r][10] * requests[r][6]
 
     return results_matrix_requests
 
