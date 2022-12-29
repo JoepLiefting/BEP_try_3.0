@@ -435,6 +435,21 @@ for i in range(len(E_matrix_All)):
         if E_matrix_All[i][j] == 0:
             E_matrix_All[i][j] = 0.01
 
+for i in range(len(E_matrix_All)):
+    for j in range(len(E_matrix_All)):
+        if E_matrix_All[i][j] > 2000:
+            E_matrix_All[i][j] = 0
+
+E2_path = "Instances/E_EGS-r-2.xlsx"
+E2_matrix_All = pd.read_excel(E2_path, 'Allv')
+E2_matrix_All = E2_matrix_All.set_index('N')
+E2_matrix_All = E2_matrix_All.values
+for i in range(len(E2_matrix_All)):
+    for j in range(len(E2_matrix_All)):
+        if E2_matrix_All[i][j] > 2000:
+            E2_matrix_All[i][j] = 0
+
+
 # for i in range(len(E_matrix_All)):
 #     for j in range(len(E_matrix_All)):
 #         if E_matrix_All[i][j] == 1000000:

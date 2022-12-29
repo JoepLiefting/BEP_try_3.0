@@ -41,7 +41,7 @@ capacity_check = capacity_vehicles.capacity_check(requests=requests, capacities=
 direct_routes_barge_check = capacity_check * time_window_barge * ((O_matrix_barge * D_matrix_barge) + O_matrix_barge)
 direct_routes_train_check = capacity_check * time_window_train * ((O_matrix_train * D_matrix_train) + O_matrix_train)
 
-# Assigning direct requests to barges
+#Assigning direct requests to barges
 for r in range(len(requests)):
     for v in range(len(vehicles)):
         direct_routes_barge_check = capacity_check * time_window_barge * (
@@ -89,38 +89,37 @@ for r in range(len(requests)):
     request_id = requests[r][7] - 100000
     used_vehicles = []
     if request_id not in closed_requests:
+        print(f"Request_id: {request_id} ----------------------------------------------------------------------")
         capacity_check = capacity_vehicles.capacity_check(requests=requests, capacities=capacities,
                                                           vehicles=vehicles)
 
-        CTE_matrix = OD_matrices.CTE_matrix(E_matrix=E_matrix_All,
+        CTE_matrix = OD_matrices.CTE2_matrix(E_matrix=E_matrix_All,
                                             vehicles=vehicles,
                                             time_window_matrix=time_window_combined,
                                             request_id=request_id,
                                             capacity_check=capacity_check)
 
         # Aanpassen time
-        used_vehicles = A_star_time.a_star_time(graph=CTE_matrix,
+        used_vehicles = A_star.a_star(graph=CTE_matrix,
                                                 heuristic=H_matrix,
                                                 start=requests[request_id][0],
-                                                goal=requests[request_id][1],
-                                                vehicles=vehicles,
-                                                requests=requests,
-                                                request_id=request_id)
+                                                goal=requests[request_id][1]+20)
 
-        # unique_used_vehicles = A_star.get_vehicles_from_astar(traject=traject,
-        #                                                       vehicles=vehicles,
-        #                                                       request_id=r,
-        #                                                       time_window_matrix=time_window_combined)
+        unique_used_vehicles = A_star.get_vehicles_from_astar(traject=used_vehicles,
+                                                              vehicles=vehicles,
+                                                              request_id= r,
+                                                              time_window_matrix= time_window_combined)
 
         # trajecten.append(traject)
         a_star_requests.append(request_id)
         a_star_used_vehicles.append(used_vehicles)
         print(used_vehicles)
+        print(unique_used_vehicles)
         print(f"Request_id: {request_id} ----------------------------------------------------------------------")
 
         # print(unique_used_vehicles)
-        for v in range(len(used_vehicles)):
-            vehicle_id = int(used_vehicles[v])
+        for v in range(len(unique_used_vehicles)):
+            vehicle_id = int(unique_used_vehicles[v])
             assign_astar_routes = logbook.assign_request_to_vehicle(open_requests=open_requests,
                                                                     closed_requests=closed_requests,
                                                                     vehicles=vehicles,
