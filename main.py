@@ -18,9 +18,9 @@ vervelend_30 = [] #leeg
 vervelend_50 = [24, 36]
 vervelend_100 = [10, 12, 45, 80, 82, 87]
 vervelend_200 = [6, 9, 11, 23, 39, 48, 68, 74, 128, 134, 150, 164]
-vervelend_400 = []
+vervelend_400 = [20, 62, 87, 120, 134, 153, 174, 176, 197, 234, 236, 239, 262, 278, 305, 308, 316, 318, 339, 345, 347, 348, 351, 369, 381, 399]
 # number of requests, it can be 5, 10, 20, 30, 50, 100, 200, 400, 700, 1000, 1300, 1600
-vervelend = vervelend_200
+vervelend = vervelend_400
 
 # Initial variables
 requests = read_files.R
@@ -54,53 +54,53 @@ direct_routes_barge_check = capacity_check * time_window_barge * ((O_matrix_barg
 direct_routes_train_check = capacity_check * time_window_train * ((O_matrix_train * D_matrix_train) + O_matrix_train)
 
 # Assigning direct requests to barges
-# for r in range(len(requests)):
-#     for v in range(len(vehicles)):
-#         direct_routes_barge_check = capacity_check * time_window_barge * (
-#                 (O_matrix_barge * D_matrix_barge) + O_matrix_barge)
-#
-#         # Possible direct routes barge
-#         if direct_routes_barge_check[v][r] == 2:
-#             # Assign requests to vehicles
-#             assign_direct_routes_barge = logbook.assign_request_to_vehicle(open_requests=open_requests,
-#                                                                            closed_requests=closed_requests,
-#                                                                            vehicles=vehicles,
-#                                                                            capacities=capacities,
-#                                                                            vehicle_id=v,
-#                                                                            request_id=r,
-#                                                                            assigned_requests=assigned_requests,
-#                                                                            time_window=time_window_combined)
-#
-#             if assigned_requests[v][r] == 1 and r not in closed_requests:
-#                 closed_requests.append(r)
-#
-# # Assigning direct requests to trains
-# for r in range(len(requests)):
-#     for v in range(len(vehicles)):
-#         direct_routes_train_check = capacity_check * time_window_barge * (
-#                 (O_matrix_barge * D_matrix_barge) + O_matrix_barge)
-#
-#         # Possible direct routes train
-#         if direct_routes_train_check[v][r] == 2:
-#             # Assign requests to vehicles
-#             assign_direct_routes_train = logbook.assign_request_to_vehicle(open_requests=open_requests,
-#                                                                            closed_requests=closed_requests,
-#                                                                            vehicles=vehicles,
-#                                                                            capacities=capacities,
-#                                                                            vehicle_id=v,
-#                                                                            request_id=r,
-#                                                                            assigned_requests=assigned_requests,
-#                                                                            time_window=time_window_combined)
-#             if assigned_requests[v][r] == 1 and r not in closed_requests:
-#                 closed_requests.append(r)
-#
-# print(closed_requests)
+for r in range(len(requests)):
+    for v in range(len(vehicles)):
+        direct_routes_barge_check = capacity_check * time_window_barge * (
+                (O_matrix_barge * D_matrix_barge) + O_matrix_barge)
+
+        # Possible direct routes barge
+        if direct_routes_barge_check[v][r] == 2:
+            # Assign requests to vehicles
+            assign_direct_routes_barge = logbook.assign_request_to_vehicle(open_requests=open_requests,
+                                                                           closed_requests=closed_requests,
+                                                                           vehicles=vehicles,
+                                                                           capacities=capacities,
+                                                                           vehicle_id=v,
+                                                                           request_id=r,
+                                                                           assigned_requests=assigned_requests,
+                                                                           time_window=time_window_combined)
+
+            if assigned_requests[v][r] == 1 and r not in closed_requests:
+                closed_requests.append(r)
+
+# Assigning direct requests to trains
+for r in range(len(requests)):
+    for v in range(len(vehicles)):
+        direct_routes_train_check = capacity_check * time_window_barge * (
+                (O_matrix_barge * D_matrix_barge) + O_matrix_barge)
+
+        # Possible direct routes train
+        if direct_routes_train_check[v][r] == 2:
+            # Assign requests to vehicles
+            assign_direct_routes_train = logbook.assign_request_to_vehicle(open_requests=open_requests,
+                                                                           closed_requests=closed_requests,
+                                                                           vehicles=vehicles,
+                                                                           capacities=capacities,
+                                                                           vehicle_id=v,
+                                                                           request_id=r,
+                                                                           assigned_requests=assigned_requests,
+                                                                           time_window=time_window_combined)
+            if assigned_requests[v][r] == 1 and r not in closed_requests:
+                closed_requests.append(r)
+
+print(closed_requests)
 
 # Astar requests:
 for r in range(len(requests)):
     request_id = requests[r][7] - 100000
     used_vehicles = []
-    if request_id not in closed_requests and request_id not in vervelend and request_id > 164:
+    if request_id not in closed_requests and request_id not in vervelend:
         print(f"Request_id: {request_id} ----------------------------------------------------------------------")
         capacity_check = capacity_vehicles.capacity_check(requests=requests, capacities=capacities,
                                                           vehicles=vehicles)
@@ -157,40 +157,40 @@ for r in range(len(requests)):
 # Generate results for statistics
 
 # Put distances in results_matrix
-# Results.distances_from_assigned(assigned_requests=assigned_requests,
-#                                 vehicles=vehicles,
-#                                 requests=requests,
-#                                 results_matrix_requests=results_matrix_requests)
+Results.distances_from_assigned(assigned_requests=assigned_requests,
+                                vehicles=vehicles,
+                                requests=requests,
+                                results_matrix_requests=results_matrix_requests)
+
+# Put emissions in results_matrix
+Results.emissions_from_assigned(assigned_requests=assigned_requests,
+                                vehicles=vehicles,
+                                requests=requests,
+                                results_matrix_requests=results_matrix_requests,
+                                H_matrix=H_matrix)
+
+# Put times in results_matrix
+Results.times_from_assigned(assigned_requests=assigned_requests,
+                            requests=requests,
+                            vehicles=vehicles,
+                            results_matrix_requests=results_matrix_requests,
+                            a_star_used_vehicles=a_star_used_vehicles,
+                            a_star_requests=a_star_requests)
+
+# Calculate delays
+Results.delay(requests=requests, results_matrix_requests=results_matrix_requests)
+
+# Time request with truck
+Results.time_increased(requests=requests, results_matrix_requests=results_matrix_requests, times_trucks=times_trucks)
+
+# Overlap
+Results.overlap(vehicles=vehicles, results_matrix_requests=results_matrix_requests,
+                a_star_used_vehicles=a_star_used_vehicles, a_star_requests=a_star_requests)
+
+# CTE_matrix = OD_matrices.CTE2_matrix(E_matrix=E_matrix_All,
+#                                      vehicles=vehicles,
+#                                      time_window_matrix=time_window_combined,
+#                                      request_id=0,
+#                                      capacity_check=capacity_check)
 #
-# # Put emissions in results_matrix
-# Results.emissions_from_assigned(assigned_requests=assigned_requests,
-#                                 vehicles=vehicles,
-#                                 requests=requests,
-#                                 results_matrix_requests=results_matrix_requests,
-#                                 H_matrix=H_matrix)
-#
-# # Put times in results_matrix
-# Results.times_from_assigned(assigned_requests=assigned_requests,
-#                             requests=requests,
-#                             vehicles=vehicles,
-#                             results_matrix_requests=results_matrix_requests,
-#                             a_star_used_vehicles=a_star_used_vehicles,
-#                             a_star_requests=a_star_requests)
-#
-# # Calculate delays
-# Results.delay(requests=requests, results_matrix_requests=results_matrix_requests)
-#
-# # Time request with truck
-# Results.time_increased(requests=requests, results_matrix_requests=results_matrix_requests, times_trucks=times_trucks)
-#
-# # Overlap
-# Results.overlap(vehicles=vehicles, results_matrix_requests=results_matrix_requests,
-#                 a_star_used_vehicles=a_star_used_vehicles, a_star_requests=a_star_requests)
-#
-# # CTE_matrix = OD_matrices.CTE2_matrix(E_matrix=E_matrix_All,
-# #                                      vehicles=vehicles,
-# #                                      time_window_matrix=time_window_combined,
-# #                                      request_id=0,
-# #                                      capacity_check=capacity_check)
-# #
-# # CTE_matrix = OD_matrices.CTE_matrix_update(CTE_matrix= CTE_matrix, vehicles=vehicles, current_time=130)
+# CTE_matrix = OD_matrices.CTE_matrix_update(CTE_matrix= CTE_matrix, vehicles=vehicles, current_time=130)
