@@ -80,8 +80,8 @@ for r in range(len(requests)):
 # Assigning direct requests to trains
 for r in range(len(requests)):
     for v in range(len(vehicles)):
-        direct_routes_train_check = capacity_check * time_window_barge * (
-                (O_matrix_barge * D_matrix_barge) + O_matrix_barge)
+        direct_routes_train_check = capacity_check * time_window_train * (
+                (O_matrix_train * D_matrix_train) + O_matrix_train)
 
         # Possible direct routes train
         if direct_routes_train_check[v][r] == 2:
