@@ -162,7 +162,7 @@ def total_emissions(vehicles):
     for r in range(len(requests)):
         total_emissions += results_matrix_requests[r][11]
 
-    return total_emissions
+    return total_emissions, timed_out_requests
 
 
 def randomize_vehicles(vehicles_array, fixed_vehicles, origin, destination, amount_barges, number_possibilities):
@@ -173,17 +173,16 @@ def randomize_vehicles(vehicles_array, fixed_vehicles, origin, destination, amou
         random_number = random.randint(1, 190)
         random_time_slots.append(random_number)
 
-    while len(random_time_slots) > 0:
-        for v in range(amount_barges):
-            if vehicles[v][7] == 1 and vehicles[v][8] == origin and vehicles[v][9] == destination:
-                vehicles[v][11] = random_time_slots[0]
-                vehicles[v][10] = vehicles[v][11] - 1
-                vehicles[v][12] = vehicles[v][11] + fixed_vehicles[v][16]
-                vehicles[v][13] = vehicles[v][12] = 1
-                random_time_slots.pop(0)
-            else:
-                break
-        vehicles_array.append(vehicles)
+# random vehicles werkt nog niet
+    for r in range(int(number_possibilities)):
+        for b in range(int(amount_barges)):
+            for v in range(len(vehicles)):
+                if vehicles[v][7] == 1 and vehicles[v][8] == origin and vehicles[v][9] == destination:
+                    vehicles[v][11] = random_time_slots[r*b+b]
+                    vehicles[v][10] = vehicles[v][11] - 1
+                    vehicles[v][12] = vehicles[v][11] + fixed_vehicles[v][16]
+                    vehicles[v][13] = vehicles[v][12] = 1
+            vehicles_array.append(vehicles)
 
     return vehicles_array
 
@@ -191,16 +190,18 @@ def randomize_vehicles(vehicles_array, fixed_vehicles, origin, destination, amou
 fixed_vehicles = read_files.vehicles
 vehicle_array = []
 total_emissions_array = []
+time_outs_array = []
 
 # generate vehicle_array
 vehicle_array = randomize_vehicles(vehicles_array=vehicle_array,
                                    fixed_vehicles=fixed_vehicles,
-                                   origin=2,
-                                   destination=5,
-                                   amount_barges=1,
-                                   number_possibilities=40)
+                                   origin=0,
+                                   destination=3,
+                                   amount_barges=14,
+                                   number_possibilities=20)
 
 # calculate total emissions for all vehicles options in vehicle_array
-for v in range(len(vehicle_array)):
-    emissions = total_emissions(vehicles=vehicle_array[v])
-    total_emissions_array.append(emissions)
+# for v in range(len(vehicle_array)):
+# emissions, timed_out_requests = total_emissions(vehicles=vehicle_array[2])
+# total_emissions_array.append(emissions)
+# time_outs_array.append(timed_out_requests)
