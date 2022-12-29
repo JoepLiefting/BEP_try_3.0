@@ -13,13 +13,13 @@ def distances_from_assigned(assigned_requests, requests, vehicles, results_matri
         for v in range(len(vehicles)):
             if assigned_requests[v][r] == 1:
                 if vehicles[v][7] == 1:
-                    results_matrix_requests[r][1] = results_matrix_requests[r][1] + vehicles[v][15]
+                    results_matrix_requests[r][1] += vehicles[v][15]
 
                 elif vehicles[v][7] == 2:
-                    results_matrix_requests[r][2] = results_matrix_requests[r][1] + vehicles[v][15]
+                    results_matrix_requests[r][2] += vehicles[v][15]
 
                 elif vehicles[v][7] == 3:
-                    results_matrix_requests[r][3] = results_matrix_requests[r][1] + vehicles[v][15]
+                    results_matrix_requests[r][3] += vehicles[v][15]
 
     return results_matrix_requests
 
@@ -28,7 +28,7 @@ def emissions_from_assigned(assigned_requests, requests, vehicles, results_matri
     for r in range(len(requests)):
         for v in range(len(vehicles)):
             if assigned_requests[v][r] == 1:
-                results_matrix_requests[r][9] = results_matrix_requests[r][8] + vehicles[v][14]
+                results_matrix_requests[r][9] += vehicles[v][14]
 
         for r in range(len(requests)):
             origin = requests[r][0]
@@ -58,7 +58,7 @@ def times_from_assigned(assigned_requests, requests, vehicles, results_matrix_re
                     k = len(a_star_used_vehicles[used_vehicle_index]) + 1
                 elif vehicles[vehicle][7] == 3:
                     truck_time_before += vehicles[vehicle][16]
-                    k = k + 1
+                    k += 1
 
             i = len(a_star_used_vehicles[used_vehicle_index])
             truck_time_after = 0
@@ -70,7 +70,7 @@ def times_from_assigned(assigned_requests, requests, vehicles, results_matrix_re
                     i = 0
                 elif vehicles[vehicle][7] == 3:
                     truck_time_after += vehicles[vehicle][16]
-                    i = i - 1
+                    i -= 1
 
     return results_matrix_requests
 

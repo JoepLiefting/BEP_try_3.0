@@ -20,7 +20,7 @@ vervelend_100 = [10, 12, 45, 80, 82, 87]
 vervelend_200 = [6, 9, 11, 23, 39, 48, 68, 74, 128, 134, 150, 164]
 vervelend_400 = [20, 62, 87, 120, 134, 153, 174, 176, 197, 234, 236, 239, 262, 278, 305, 308, 316, 318, 339, 345, 347, 348, 351, 369, 381, 399]
 # number of requests, it can be 5, 10, 20, 30, 50, 100, 200, 400, 700, 1000, 1300, 1600
-vervelend = vervelend_100
+vervelend = vervelend_400
 
 # Initial variables
 requests = read_files.R
