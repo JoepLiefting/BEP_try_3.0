@@ -121,7 +121,6 @@ def CTE_matrix(E_matrix, vehicles, time_window_matrix, request_id, capacity_chec
             T_E_matrix[barge_origin][barge_destination] = E_matrix[barge_origin][barge_destination]
             T_E_matrix[barge_destination][barge_origin] = E_matrix[barge_destination][barge_origin]
 
-
     C_T_E_matrix = T_E_matrix.copy()
     # T_E_matrix voor trains met capacities
     for v in range(len(vehicles)):
@@ -253,6 +252,7 @@ def CTE2_matrix(E_matrix, vehicles, time_window_matrix, request_id, capacity_che
 
     return C_T_E_matrix
 
+
 def CTE_matrix_update(CTE_matrix, vehicles, current_time):
     CTE_updated = CTE_matrix.copy()
 
@@ -289,3 +289,5 @@ def CTE_matrix_update(CTE_matrix, vehicles, current_time):
                             k += 1
 
     return CTE_updated
+
+

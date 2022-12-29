@@ -91,6 +91,10 @@ def a_star_time(CTE_matrix, heuristic, start, goal, vehicles, requests, request_
                         used_vehicles.append(vehicles[v][0])
                         current_time += vehicles[v][16]
                         break
+        print(used_vehicles)
+        print(current_time)
+        OD_matrices.CTE_matrix_update(CTE_matrix=CTE_matrix, vehicles=vehicles, current_time=current_time)
+
         # ...then, for all neighboring nodes that haven't been visited yet....
         for i in range(len(CTE_matrix[lowest_priority_index])):
             if CTE_matrix[lowest_priority_index][i] != 0 and not visited[i]:
@@ -107,7 +111,6 @@ def a_star_time(CTE_matrix, heuristic, start, goal, vehicles, requests, request_
                     # + f"\n{distances[i]}" + " and priority to " + f"\n{priorities[i]}")
                 # Lastly, note that we are finished with this node.
                 visited[lowest_priority_index] = True
-                OD_matrices.CTE_matrix_update(CTE_matrix=CTE_matrix, vehicles=vehicles, current_time=current_time)
                 # print("Visited nodes: " + f"\n{visited}")
                 # print("Currently lowest distances: " + f"\n{distances}")
 

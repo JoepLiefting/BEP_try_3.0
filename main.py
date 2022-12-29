@@ -10,6 +10,9 @@ import A_star_time
 import logbook
 import Results
 
+#Requests die errors geven
+vervelend = [12]
+
 # Initial variables
 requests = read_files.R
 open_requests = requests.copy()
@@ -41,7 +44,7 @@ capacity_check = capacity_vehicles.capacity_check(requests=requests, capacities=
 direct_routes_barge_check = capacity_check * time_window_barge * ((O_matrix_barge * D_matrix_barge) + O_matrix_barge)
 direct_routes_train_check = capacity_check * time_window_train * ((O_matrix_train * D_matrix_train) + O_matrix_train)
 
-#Assigning direct requests to barges
+# Assigning direct requests to barges
 for r in range(len(requests)):
     for v in range(len(vehicles)):
         direct_routes_barge_check = capacity_check * time_window_barge * (
@@ -88,25 +91,31 @@ print(closed_requests)
 for r in range(len(requests)):
     request_id = requests[r][7] - 100000
     used_vehicles = []
-    if request_id not in closed_requests:
+    if request_id not in closed_requests and request_id not in vervelend:
         print(f"Request_id: {request_id} ----------------------------------------------------------------------")
         capacity_check = capacity_vehicles.capacity_check(requests=requests, capacities=capacities,
                                                           vehicles=vehicles)
 
         CTE_matrix = OD_matrices.CTE2_matrix(E_matrix=E_matrix_All,
-                                            vehicles=vehicles,
-                                            time_window_matrix=time_window_combined,
-                                            request_id=request_id,
-                                            capacity_check=capacity_check)
+                                             vehicles=vehicles,
+                                             time_window_matrix=time_window_combined,
+                                             request_id=request_id,
+                                             capacity_check=capacity_check)
 
         # Aanpassen time
         used_vehicles = A_star_time.a_star_time(CTE_matrix=CTE_matrix,
                                                 heuristic=H_matrix,
                                                 start=requests[request_id][0],
-                                                goal=requests[request_id][1]+20,
+                                                goal=requests[request_id][1] + 20,
                                                 vehicles=vehicles,
                                                 requests=requests,
                                                 request_id=r)
+
+        # Aanpassen time
+        # used_vehicles = A_star.a_star(graph=CTE_matrix,
+        #                               heuristic=H_matrix,
+        #                               start=requests[request_id][0],
+        #                               goal=requests[request_id][1] + 20)
 
         unique_used_vehicles = A_star.get_vehicles_from_astar(traject=used_vehicles,
                                                               vehicles=vehicles,
@@ -166,3 +175,11 @@ Results.time_increased(requests=requests, results_matrix_requests=results_matrix
 # Overlap
 Results.overlap(vehicles=vehicles, results_matrix_requests=results_matrix_requests,
                 a_star_used_vehicles=a_star_used_vehicles, a_star_requests=a_star_requests)
+
+# CTE_matrix = OD_matrices.CTE2_matrix(E_matrix=E_matrix_All,
+#                                      vehicles=vehicles,
+#                                      time_window_matrix=time_window_combined,
+#                                      request_id=0,
+#                                      capacity_check=capacity_check)
+#
+# CTE_matrix = OD_matrices.CTE_matrix_update(CTE_matrix= CTE_matrix, vehicles=vehicles, current_time=130)
