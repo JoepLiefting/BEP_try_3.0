@@ -17,7 +17,7 @@ vervelend_20 = [12]
 vervelend_30 = [] #leeg
 vervelend_50 = [24, 36]
 vervelend_100 = [10, 12, 45, 80, 82, 87]
-vervelend_200 = [6, 9, 11, 23, 39, 48, 68, 74, 128, 134, 150]
+vervelend_200 = [6, 9, 11, 23, 39, 48, 68, 74, 128, 134, 150, 164]
 vervelend_400 = []
 # number of requests, it can be 5, 10, 20, 30, 50, 100, 200, 400, 700, 1000, 1300, 1600
 vervelend = vervelend_200
@@ -100,7 +100,7 @@ direct_routes_train_check = capacity_check * time_window_train * ((O_matrix_trai
 for r in range(len(requests)):
     request_id = requests[r][7] - 100000
     used_vehicles = []
-    if request_id not in closed_requests and request_id not in vervelend and request_id > 150:
+    if request_id not in closed_requests and request_id not in vervelend and request_id > 164:
         print(f"Request_id: {request_id} ----------------------------------------------------------------------")
         capacity_check = capacity_vehicles.capacity_check(requests=requests, capacities=capacities,
                                                           vehicles=vehicles)
