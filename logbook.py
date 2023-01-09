@@ -64,3 +64,22 @@ def assignment_check(requests, vehicles, assigned_requests):
             wrong_requests.append(request_id)
 
     return wrong_requests
+
+
+def skipped_requests(requests, time_out_list, results_matrix_requests, H_matrix):
+    skipped_containers_list = []
+    for r in range(len(time_out_list)):
+        request_id = time_out_list[r]
+        origin = requests[request_id][0]
+        destination = requests[request_id][1]
+        quantity = requests[request_id][6]
+        emissions = H_matrix[origin][destination]
+        results_matrix_requests[request_id][9] = emissions
+        results_matrix_requests[request_id][10] = emissions
+        results_matrix_requests[request_id][11] = emissions * quantity
+        results_matrix_requests[request_id][3] = emissions / 0.8866
+        results_matrix_requests[request_id][8] = emissions / 0.8866 / 75
+        results_matrix_requests[request_id][4] = requests[request_id][2]
+        results_matrix_requests[request_id][5] = requests[request_id][2] + results_matrix_requests[request_id][8]
+        skipped_containers_list.append(quantity)
+    return results_matrix_requests, skipped_containers_list

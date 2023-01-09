@@ -195,6 +195,18 @@ Results.time_increased(requests=requests, results_matrix_requests=results_matrix
 Results.overlap(vehicles=vehicles, results_matrix_requests=results_matrix_requests,
                 a_star_used_vehicles=a_star_used_vehicles, a_star_requests=a_star_requests)
 
+results_matrix_requests, skipped_containers = logbook.skipped_requests(requests= requests,
+                                                                       time_out_list= timed_out_requests,
+                                                                       results_matrix_requests= results_matrix_requests,
+                                                                       H_matrix= H_matrix)
+
+skipped_quantity = sum(skipped_containers)
+
+total_emissions = Results.total_emissions_from_matrix(results_matrix= results_matrix_requests)
+
+
+
+
 # CTE_matrix = OD_matrices.CTE2_matrix(E_matrix=E_matrix_All,
 #                                      vehicles=vehicles,
 #                                      time_window_matrix=time_window_combined,

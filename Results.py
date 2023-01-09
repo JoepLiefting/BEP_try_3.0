@@ -34,7 +34,7 @@ def emissions_from_assigned(assigned_requests, requests, vehicles, results_matri
             origin = requests[r][0]
             destination = requests[r][1]
             results_matrix_requests[r][10] = H_matrix[origin][destination]
-            results_matrix_requests[r][11] = results_matrix_requests[r][10] * requests[r][6]
+            results_matrix_requests[r][11] = results_matrix_requests[r][9] * requests[r][6]
 
     return results_matrix_requests
 
@@ -128,3 +128,10 @@ def overlap(vehicles, results_matrix_requests, a_star_used_vehicles, a_star_requ
             results_matrix_requests[request_id][7] = overlap_var
 
     return results_matrix_requests
+
+
+def total_emissions_from_matrix(results_matrix):
+    total_emissions = 0
+    for r in range(len(results_matrix)):
+        total_emissions += results_matrix[r][11]
+    return total_emissions
