@@ -159,6 +159,11 @@ def total_emissions(vehicles):
                                     results_matrix_requests=results_matrix_requests,
                                     H_matrix=H_matrix)
 
+    results_matrix_requests, skipped_containers = logbook.skipped_requests(requests=requests,
+                                                                           time_out_list=timed_out_requests,
+                                                                           results_matrix_requests=results_matrix_requests,
+                                                                           H_matrix=H_matrix)
+
     for r in range(len(requests)):
         total_emissions += results_matrix_requests[r][11]
 
@@ -201,7 +206,7 @@ vehicle_array = randomize_vehicles(vehicles_array=vehicle_array,
                                    number_possibilities=20)
 
 # calculate total emissions for all vehicles options in vehicle_array
-# for v in range(len(vehicle_array)):
-# emissions, timed_out_requests = total_emissions(vehicles=vehicle_array[2])
-# total_emissions_array.append(emissions)
-# time_outs_array.append(timed_out_requests)
+for v in range(len(vehicle_array)):
+    emissions, timed_out_requests = total_emissions(vehicles=vehicle_array[2])
+    total_emissions_array.append(emissions)
+    time_outs_array.append(timed_out_requests)
