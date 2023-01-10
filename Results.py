@@ -135,3 +135,16 @@ def total_emissions_from_matrix(results_matrix):
     for r in range(len(results_matrix)):
         total_emissions += results_matrix[r][11]
     return total_emissions
+
+
+def total_teu_from_matrix(requests):
+    teu = 0
+    for r in range(len(requests)):
+        teu += requests[r][6]
+    return teu
+
+
+# def unused_barges_requests(assigned_matrix, capacities, requests, vehicles):
+#     for c in range(len(capacities)):
+#         if capacities[c][1] == 100:
+#

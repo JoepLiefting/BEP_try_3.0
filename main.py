@@ -204,7 +204,7 @@ skipped_quantity = sum(skipped_containers)
 
 total_emissions = Results.total_emissions_from_matrix(results_matrix= results_matrix_requests)
 
-
+teu = Results.total_teu_from_matrix(requests= requests)
 
 
 # CTE_matrix = OD_matrices.CTE2_matrix(E_matrix=E_matrix_All,

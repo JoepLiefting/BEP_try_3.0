@@ -346,16 +346,29 @@ Data = pd.ExcelFile(data_path)
 
 request_number_in_R = 100
 
+# fixed vehicles information
+
+# change names of terminals to numbers
+
+names = revert_names()
+vehiclesindex = revert_vehicles()
+vehicles = pd.ExcelFile(vehicles_path)
+
+vehicles = pd.read_excel(vehicles, 'K')
+vehicles['K'] = vehicles['K'].map(vehiclesindex).fillna(vehicles['K'])
+vehicles['o'] = vehicles['o'].map(names).fillna(vehicles['o'])
+vehicles['o2'] = vehicles['o2'].map(names).fillna(vehicles['o2'])
+vehicles.insert(14, 'E', np.zeros(len(vehicles)))
+vehicles.insert(15, 'D', np.zeros(len(vehicles)))
+vehicles.insert(16, 'T', np.zeros(len(vehicles)))
+vehicles = vehicles.values
+
 # terminals
 
 N = pd.read_excel(Data, 'N')
 
 N = N.values
 
-# change names of terminals to numbers
-
-names = revert_names()
-vehiclesindex = revert_vehicles()
 
 # read depots
 
@@ -398,19 +411,6 @@ Coords = Coords.set_index('t')
 Coords['x'] = Coords['x'].map(names).fillna(Coords['x'])
 Coords['y'] = Coords['y'].map(names).fillna(Coords['y'])
 Coords = Coords.values
-
-# fixed vehicles information
-
-vehicles = pd.ExcelFile(vehicles_path)
-
-vehicles = pd.read_excel(vehicles, 'K')
-vehicles['K'] = vehicles['K'].map(vehiclesindex).fillna(vehicles['K'])
-vehicles['o'] = vehicles['o'].map(names).fillna(vehicles['o'])
-vehicles['o2'] = vehicles['o2'].map(names).fillna(vehicles['o2'])
-vehicles.insert(14, 'E', np.zeros(len(vehicles)))
-vehicles.insert(15, 'D', np.zeros(len(vehicles)))
-vehicles.insert(16, 'T', np.zeros(len(vehicles)))
-vehicles = vehicles.values
 
 H_matrix = pd.ExcelFile(H_path)
 H_matrix = pd.read_excel(H_matrix, 'Barge', index_col=0)

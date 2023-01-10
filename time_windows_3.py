@@ -17,7 +17,7 @@ def time_matrix_barge(requests):
             request_bd = requests[r][5]
 
             if vehicle_type == 1:
-                if vehicle_bp > request_ap and vehicle_ad < request_bd:
+                if vehicle_bp >= request_ap and vehicle_ad <= request_bd:
                     time_window_check_barge[v][r] = 1
 
     return time_window_check_barge
@@ -38,7 +38,7 @@ def time_matrix_train(requests):
             request_bd = requests[r][5]
 
             if vehicle_type == 2:
-                if vehicle_bp > request_ap and vehicle_ad < request_bd:
+                if vehicle_bp >= request_ap and vehicle_ad <= request_bd:
                     time_window_check_train[v][r] = 1
 
     return time_window_check_train
