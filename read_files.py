@@ -333,7 +333,7 @@ parallel_number = 1
 data_path = "Instances/Intermodal_EGS_data_all.xlsx"
 coords_path = "Instances/Coordinates.xlsx"
 fixed_path = "Instances/Fixed_vehicles.xlsx"
-vehicles_path = "Instances/Vehicles.xlsx"
+vehicles_path = "Instances/Vehicles_1.xlsx"
 H_path = "Instances/H_matrix.xlsx"
 
 # read routes that are unsuitable to barges and trucks
@@ -344,7 +344,7 @@ Data = pd.ExcelFile(data_path)
 
 # number of requests, it can be 5, 10, 20, 30, 50, 100, 200, 400, 700, 1000, 1300, 1600
 
-request_number_in_R = 100
+request_number_in_R = 700
 
 # fixed vehicles information
 
