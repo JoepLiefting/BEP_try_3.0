@@ -344,7 +344,7 @@ Data = pd.ExcelFile(data_path)
 
 # number of requests, it can be 5, 10, 20, 30, 50, 100, 200, 400, 700, 1000, 1300, 1600
 
-request_number_in_R = 700
+request_number_in_R = 100
 
 # fixed vehicles information
 
@@ -354,7 +354,7 @@ names = revert_names()
 vehiclesindex = revert_vehicles()
 vehicles = pd.ExcelFile(vehicles_path)
 
-vehicles = pd.read_excel(vehicles, 'K')
+vehicles = pd.read_excel(vehicles, 'Flexible_times_only')
 vehicles['K'] = vehicles['K'].map(vehiclesindex).fillna(vehicles['K'])
 vehicles['o'] = vehicles['o'].map(names).fillna(vehicles['o'])
 vehicles['o2'] = vehicles['o2'].map(names).fillna(vehicles['o2'])
