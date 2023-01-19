@@ -5,7 +5,6 @@ import read_files
 import time_windows_3
 import OD_matrices
 import capacity_vehicles
-import A_star
 import A_star_time
 import logbook
 import Results
